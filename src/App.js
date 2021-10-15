@@ -1,25 +1,58 @@
-import logo from './logo.svg';
-import './App.css';
+// import logo from './logo.svg';
+import './App.scss';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <Content />
     </div>
   );
 }
+function Button(props){
+  return(
+    <button className={`Button ${props.color} ${props.outline}`}>
+      {props.children}
+    </button>
+  )
+}
+function Header(){
+  return(
+    <div className="Header">
+      <h1>トド リスト</h1>
+      <Navbar />
+    </div>
+  )
+}
+function Navbar(){
+  return(
+    <div className="Search"> 
+      <div className="Search-field">
+        <p>Search by title or tag...</p>
+      </div>
+      <Button color="dark" outline="outline">Search</Button>
+    </div>
+  )
+}
 
+function Content(){
+  return(<div className="Content">
+    <Sidebar />
+    <Main />
+    </div>)
+}
+function Main(){
+  return(
+    <div className="Main">  
+      <p>texttexttexttexttexttexttexttexttext</p>
+    </div>
+  );
+}
+function Sidebar(){
+  return(
+    <div className="Sidebar">
+      
+      </div>
+  )
+}
 export default App;

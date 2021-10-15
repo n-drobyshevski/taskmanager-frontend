@@ -1,0 +1,119 @@
+$white-gray-color: #ecf0f1;
+$dark-color: #2c3e50;
+$red_color: #e74c3c;
+$l-blue-color: #3498db;
+$d-blue-color: #2980b9;
+$gray-color: #c7d3d6;
+$text-secondary-color: #a1aeb7;
+$text-color: #505d68;
+$h1: 2.441rem;
+$h2:1.953rem;
+$p5:1rem;
+$p4:1.25rem;
+#root {
+	height: 100vh;
+}
+@mixin fill($fill-color:$dark-color){
+  background-color: $fill-color;
+  border:none;
+}
+@mixin outline($border-color:$dark-color){
+  background-color:transparent;
+  border: 1px solid $border-color;
+  border-radius: .25rem;
+}
+.Button{
+  display:inline-block;
+  padding: 6px 12px;
+  font-size: $p4;
+  text-decoration: none;
+}
+.Button.dark{
+  @include fill($dark-color)
+}
+.Button.outline{
+  @include outline($dark-color)
+}
+.App {
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	align-items: flex-end;
+	width: 100%;
+}
+
+.App-logo {
+	height: 40vmin;
+	pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.App-logo {
+		animation: App-logo-spin infinite 20s linear;
+	}
+}
+
+.App-header {
+	background-color: #282c34;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-size: calc(10px + 2vmin);
+	color: white;
+}
+
+.App-link {
+	color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+.Header {
+  padding: 2rem;
+	height: 15%;
+	width: 100%;
+	background-color: $white-gray-color;
+	display: flex;
+	h1 {
+    width:25rem;
+		color: $text-color;
+		font-size: $h1;
+	}
+	.Navbar {
+		display: flex;
+    flex-grow: 1;
+		background-color: $d-blue-color;
+    .Search{
+      display: flex;
+    }
+  }
+}
+
+.Content {
+	display: flex;
+	width: 100%;
+	flex-grow: 1;
+	flex-direction: row;
+	.Main {
+		width: 75%;
+		height: 100%;
+		border: 1px solid black;
+		border-radius: 0.25rem;
+		color: white;
+		display: flex;
+	}
+	.Sidebar {
+		width: 25%;
+		height: 100%;
+		background-color: $white-gray-color;
+	}
+}
