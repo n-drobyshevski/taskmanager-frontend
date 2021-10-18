@@ -9,50 +9,56 @@ function App() {
     </div>
   );
 }
-function Button(props){
-  return(
+function Button(props) {
+  return (
     <button className={`Button ${props.color} ${props.outline}`}>
       {props.children}
     </button>
   )
 }
-function Header(){
-  return(
+function Header() {
+  return (
     <div className="Header">
       <h1>トド リスト</h1>
       <Navbar />
     </div>
   )
 }
-function Navbar(){
-  return(
-    <div className="Search"> 
-      <div className="Search-field">
-        <p>Search by title or tag...</p>
+function Navbar() {
+  return (
+    <div className="Navbar">
+      <div className="Search">
+        <div className="Search-field">
+          <p>Search by title or tag...</p>
+        </div>
+        <Button color="secondary" outline="outline">Search</Button>
       </div>
-      <Button color="dark" outline="outline">Search</Button>
+      <div className="Button-group">
+        <Button color="secondary" outline="outline">Log In</Button>
+        <Button color="secondary" outline="outline">Sign Up</Button>
+      </div>
     </div>
   )
 }
 
-function Content(){
-  return(<div className="Content">
+function Content() {
+  return (<div className="Content">
     <Sidebar />
     <Main />
-    </div>)
+  </div>)
 }
-function Main(){
-  return(
-    <div className="Main">  
+function Main() {
+  return (
+    <div className="Main">
       <p>texttexttexttexttexttexttexttexttext</p>
     </div>
   );
 }
-function Sidebar(){
-  return(
+function Sidebar() {
+  return (
     <div className="Sidebar">
-      
-      </div>
+
+    </div>
   )
 }
 export default App;

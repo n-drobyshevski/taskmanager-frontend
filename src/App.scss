@@ -1,3 +1,6 @@
+@import 'styles/reset';
+@import 'styles/fonts';
+
 $white-gray-color: #ecf0f1;
 $dark-color: #2c3e50;
 $red_color: #e74c3c;
@@ -6,33 +9,44 @@ $d-blue-color: #2980b9;
 $gray-color: #c7d3d6;
 $text-secondary-color: #a1aeb7;
 $text-color: #505d68;
+$font-family-heading: 'Chivo';
+$font-family-paragraph:'Overpass';
 $h1: 2.441rem;
-$h2:1.953rem;
-$p5:1rem;
-$p4:1.25rem;
+$h2: 1.953rem;
+$p5: 1rem;
+$p4: 1.25rem;
 #root {
 	height: 100vh;
 }
-@mixin fill($fill-color:$dark-color){
-  background-color: $fill-color;
-  border:none;
+@mixin fill($fill-color: $dark-color) {
+	background-color: $fill-color;
+	border: none;
 }
-@mixin outline($border-color:$dark-color){
-  background-color:transparent;
-  border: 1px solid $border-color;
-  border-radius: .25rem;
+@mixin outline($border-color: $dark-color) {
+	background-color: transparent;
+	border: 1px solid $border-color;
+	border-radius: 0.25rem;
 }
-.Button{
-  display:inline-block;
-  padding: 6px 12px;
-  font-size: $p4;
-  text-decoration: none;
+.Button {
+	display: inline-block;
+	padding: 6px 12px;
+	font-size: $p4;
+	font-family: $font-family-paragraph;
+	text-decoration: none;
 }
-.Button.dark{
-  @include fill($dark-color)
+.Button.dark {
+	@include fill($dark-color);
 }
-.Button.outline{
-  @include outline($dark-color)
+	.Button.dark {
+	@include fill($dark-color);
+}
+
+.Button.outline {
+	@include outline($dark-color);
+}
+.Button-group{
+	display:flex;
+	gap: .5rem
 }
 .App {
 	text-align: center;
@@ -78,24 +92,38 @@ $p4:1.25rem;
 	}
 }
 .Header {
-  padding: 2rem;
+	padding: 2rem;
 	height: 15%;
 	width: 100%;
+	padding:2rem;
 	background-color: $white-gray-color;
+	color: $text-color;
 	display: flex;
 	h1 {
-    width:25rem;
-		color: $text-color;
+		width: 25rem;
 		font-size: $h1;
+		font-family: $font-family-heading;
+		align-self: flex-start;
 	}
 	.Navbar {
 		display: flex;
-    flex-grow: 1;
-		background-color: $d-blue-color;
-    .Search{
-      display: flex;
-    }
-  }
+		flex-grow: 1;
+		justify-content: space-between;
+		align-items: flex-start;
+		color:$text-secondary-color;
+		.Search {
+			display: flex;
+			gap: .5rem;
+			.Search-field{ 
+				font-size: $p5;
+				text-align: center;
+				padding: 6px 12px;
+				border: 1px solid $text-secondary-color;
+				border-radius: .25rem;
+				font-family: $font-family-paragraph;
+			}
+		}
+	}
 }
 
 .Content {
