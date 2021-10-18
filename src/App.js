@@ -5,7 +5,8 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <Content />
+      <Sidebar />
+      <Main />
     </div>
   );
 }
@@ -41,12 +42,6 @@ function Navbar() {
   )
 }
 
-function Content() {
-  return (<div className="Content">
-    <Sidebar />
-    <Main />
-  </div>)
-}
 function Main() {
   return (
     <div className="Main">

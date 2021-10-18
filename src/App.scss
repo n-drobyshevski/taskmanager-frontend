@@ -15,10 +15,12 @@ $h1: 2.441rem;
 $h2: 1.953rem;
 $p5: 1rem;
 $p4: 1.25rem;
-#root {
-	height: 100vh;
+html, body, #root, .App{
+	height: 100%;
+	margin:0;
 }
 @mixin fill($fill-color: $dark-color) {
+	color: $fill-color;
 	background-color: $fill-color;
 	border: none;
 }
@@ -33,27 +35,28 @@ $p4: 1.25rem;
 	font-size: $p4;
 	font-family: $font-family-paragraph;
 	text-decoration: none;
+	flex: 0 0 auto;
 }
 .Button.dark {
 	@include fill($dark-color);
 }
-	.Button.dark {
-	@include fill($dark-color);
-}
-
-.Button.outline {
+.Button.dark.outline {
 	@include outline($dark-color);
 }
+.Button.secondary {
+	@include fill($text-color);
+}
+.Button.secondary.outline {
+	@include outline($text-color);
+}
+
 .Button-group{
 	display:flex;
 	gap: .5rem
 }
 .App {
-	text-align: center;
-	display: flex;
-	flex-direction: column;
-	height: 100%;
-	align-items: flex-end;
+	display:grid;
+	grid: "header header" 15% "sidebar main" 1fr / [sidebar] 25% [main] 75% ;
 	width: 100%;
 }
 
@@ -92,9 +95,7 @@ $p4: 1.25rem;
 	}
 }
 .Header {
-	padding: 2rem;
-	height: 15%;
-	width: 100%;
+	grid-area:header;
 	padding:2rem;
 	background-color: $white-gray-color;
 	color: $text-color;
@@ -107,6 +108,7 @@ $p4: 1.25rem;
 	}
 	.Navbar {
 		display: flex;
+		height:auto;
 		flex-grow: 1;
 		justify-content: space-between;
 		align-items: flex-start;
@@ -117,31 +119,25 @@ $p4: 1.25rem;
 			.Search-field{ 
 				font-size: $p5;
 				text-align: center;
-				padding: 6px 12px;
-				border: 1px solid $text-secondary-color;
+				padding:12px 20px;
+				border: 1px solid $text-color;
 				border-radius: .25rem;
 				font-family: $font-family-paragraph;
+				box-sizing: border-box;
 			}
 		}
 	}
 }
 
-.Content {
+.Main {
+	grid-area:main;
+	border: 1px solid black;
+	border-radius: 0.25rem;
+	color: white;
 	display: flex;
-	width: 100%;
-	flex-grow: 1;
-	flex-direction: row;
-	.Main {
-		width: 75%;
-		height: 100%;
-		border: 1px solid black;
-		border-radius: 0.25rem;
-		color: white;
-		display: flex;
-	}
-	.Sidebar {
-		width: 25%;
-		height: 100%;
-		background-color: $white-gray-color;
-	}
 }
+.Sidebar {
+	grid-area:sidebar;
+	background-color: $white-gray-color;
+}
+
