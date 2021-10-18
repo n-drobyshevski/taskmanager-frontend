@@ -22,6 +22,7 @@ html, body, #root, .App{
 @mixin fill($fill-color: $dark-color) {
 	color: $fill-color;
 	background-color: $fill-color;
+	border-radius: 0.25rem;
 	border: none;
 }
 @mixin outline($border-color: $dark-color) {
@@ -48,6 +49,12 @@ html, body, #root, .App{
 }
 .Button.secondary.outline {
 	@include outline($text-color);
+}
+.Button.blue {
+	@include fill($d-blue-color);
+}
+.Button.blue.outline {
+	@include outline($d-blue-color);
 }
 
 .Button-group{
@@ -96,23 +103,25 @@ html, body, #root, .App{
 }
 .Header {
 	grid-area:header;
-	padding:2rem;
 	background-color: $white-gray-color;
 	color: $text-color;
 	display: flex;
-	h1 {
-		width: 25rem;
+	.Logo {
+		padding:2rem;
+		width: 25%;
 		font-size: $h1;
 		font-family: $font-family-heading;
 		align-self: flex-start;
+		box-sizing: border-box;
 	}
 	.Navbar {
+		padding:2rem;
+		padding-left: 0;
 		display: flex;
-		height:auto;
 		flex-grow: 1;
 		justify-content: space-between;
 		align-items: flex-start;
-		color:$text-secondary-color;
+		color:$text-color;
 		.Search {
 			display: flex;
 			gap: .5rem;

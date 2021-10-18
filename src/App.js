@@ -20,7 +20,9 @@ function Button(props) {
 function Header() {
   return (
     <div className="Header">
-      <h1>トド リスト</h1>
+      <div className="Logo">
+        <h1>トド リスト</h1>
+      </div>
       <Navbar />
     </div>
   )
@@ -35,7 +37,7 @@ function Navbar() {
         <Button color="secondary" outline="outline">Search</Button>
       </div>
       <div className="Button-group">
-        <Button color="secondary" outline="outline">Log In</Button>
+        <Button color="blue" outline="outline">Log In</Button>
         <Button color="secondary" outline="outline">Sign Up</Button>
       </div>
     </div>
