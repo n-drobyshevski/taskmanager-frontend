@@ -23,20 +23,13 @@ function Header() {
       <div className="Logo">
         <h1>トド リスト</h1>
       </div>
-      <Navbar />
-    </div>
-  )
-}
-function Navbar() {
-  return (
-    <div className="Navbar">
       <div className="Search">
         <div className="Search-field">
           <p>Search by title or tag...</p>
         </div>
         <Button color="secondary" outline="outline">Search</Button>
       </div>
-      <div className="Button-group">
+      <div className="LoginRegister">
         <Button color="blue" outline="outline">Log In</Button>
         <Button color="secondary" outline="outline">Sign Up</Button>
       </div>
