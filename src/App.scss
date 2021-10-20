@@ -41,14 +41,14 @@ body,
 ul {
 	display: flex;
 	flex-direction: column;
-	gap: 1rem;
 }
 li {
 	display: flex;
 	gap: 0.5rem;
 	align-items: center;
+	padding: .5rem;
 	p {
-		font-family:$font-family-paragraph ;
+		font-family: $font-family-paragraph;
 		flex-grow: 1;
 	}
 }
@@ -138,16 +138,21 @@ input {
 	.SidebarContent {
 		height: 86%;
 		overflow-y: scroll;
-		-ms-overflow-style: none;  /* IE and Edge */
-  		scrollbar-width: none;  /* Firefox */
+		-ms-overflow-style: none; /* IE and Edge */
+		scrollbar-width: none; /* Firefox */
 		.SidebarGroup {
 			display: flex;
 			flex-direction: column;
 			gap: 1rem;
+			li.active {
+				color: $d-blue-color;
+				background-color: white;
+				border-radius: 0.25rem;
+			}
 			.Label {
 				display: flex;
 				font-size: $h4;
-				font-family:$font-family-heading;
+				font-family: $font-family-heading;
 				color: $text-secondary-color;
 				align-items: center;
 				p {
@@ -163,7 +168,7 @@ input {
 	/* Hide scrollbar for Chrome, Safari and Opera */
 	.SidebarContent::-webkit-scrollbar {
 		display: none;
-	  }
+	}
 	.CreateButton {
 		position: absolute;
 		box-sizing: border-box;

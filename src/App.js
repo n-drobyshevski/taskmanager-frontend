@@ -19,13 +19,15 @@ function Button(props) {
 }
 function ListItem(props) {
   let marker;
+  let highlight;
   if (props.active === true) {
+    highlight = 'active';
     marker = <svg width="6" height="7" viewBox="0 0 6 7" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M1 3.5C1 4.60457 1.89543 5.5 3 5.5C4.10457 5.5 5 4.60457 5 3.5C5 2.39543 4.10457 1.5 3 1.5C1.89543 1.5 1 2.39543 1 3.5Z" fill="#3498DB" stroke="#3498DB" stroke-width="2" />
     </svg>;
   }
   return (
-    <li>
+    <li className={highlight}>
       {props.svg}
       <p>{props.text}</p>
       {marker}
