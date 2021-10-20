@@ -24,9 +24,7 @@ function Header() {
         <h1>トド リスト</h1>
       </div>
       <div className="Search">
-        <div className="Search-field">
-          <p>Search by title or tag...</p>
-        </div>
+        <input value="Search by name or by tag..." type="text" name="search"></input>
         <Button color="secondary" outline="outline">Search</Button>
       </div>
       <div className="LoginRegister">
@@ -47,7 +45,12 @@ function Main() {
 function Sidebar() {
   return (
     <div className="Sidebar">
-
+      <ul>
+        <li>Today</li>
+        <li>Next 3 days</li>
+        <li>Week</li>
+        <li>Month</li>
+        </ul>
     </div>
   )
 }
