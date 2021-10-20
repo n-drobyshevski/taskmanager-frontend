@@ -13,6 +13,7 @@ $font-family-heading: "Chivo";
 $font-family-paragraph: "Overpass";
 $h1: 2.441rem;
 $h2: 1.953rem;
+$h4: 1.25rem;
 $p5: 1rem;
 $p4: 1.25rem;
 $p6: 0.8rem;
@@ -23,9 +24,9 @@ body,
 	height: 100%;
 	margin: 0;
 }
-@mixin border($border-color: $dark-color){
+@mixin border($border-color: $dark-color) {
 	border: 1px solid $border-color;
-	border-radius:.25rem;
+	border-radius: 0.25rem;
 }
 @mixin fill($fill-color: $dark-color) {
 	color: $fill-color;
@@ -37,15 +38,29 @@ body,
 	background-color: transparent;
 	@include border($border-color);
 }
-
-input{
+ul {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+li {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+	p {
+		font-family:$font-family-paragraph ;
+		flex-grow: 1;
+	}
+}
+input {
 	display: inline-block;
 	padding: 6px 12px;
 	font-size: $p5;
 	font-family: $font-family-paragraph;
 	text-decoration: none;
-	color:$text-secondary-color;
+	color: $text-secondary-color;
 	@include border($text-color);
+	height: min-content;
 }
 .Button {
 	display: inline-block;
@@ -53,8 +68,7 @@ input{
 	font-size: $p5;
 	font-family: $font-family-paragraph;
 	text-decoration: none;
-	flex: 0 0 auto;
-	min-height: min-content;
+	height: min-content;
 }
 .Button.dark {
 	@include fill($dark-color);
@@ -76,7 +90,7 @@ input{
 }
 
 .App {
-	grid: "header header" 15% "sidebar main" 1fr / [sidebar] 25% [main] 75%;
+	grid: "header header" 15% "sidebar main" 85% / [sidebar] 25% [main] 75%;
 	display: grid;
 	width: 100%;
 	color: $text-color;
@@ -99,7 +113,7 @@ input{
 		display: flex;
 		flex: 1 0 auto;
 		gap: 0.5rem;
-		input{
+		input {
 			background-color: $white-gray-color;
 		}
 	}
@@ -119,4 +133,48 @@ input{
 .Sidebar {
 	grid-area: sidebar;
 	background-color: $white-gray-color;
+	position: relative;
+	padding: 2rem;
+	.SidebarContent {
+		height: 86%;
+		overflow-y: scroll;
+		-ms-overflow-style: none;  /* IE and Edge */
+  		scrollbar-width: none;  /* Firefox */
+		.SidebarGroup {
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
+			.Label {
+				display: flex;
+				font-size: $h4;
+				font-family:$font-family-heading;
+				color: $text-secondary-color;
+				align-items: center;
+				p {
+					flex-grow: 1;
+				}
+			}
+		}
+		hr {
+			margin: 1.5rem 0;
+			color: $text-secondary-color;
+		}
+	}
+	/* Hide scrollbar for Chrome, Safari and Opera */
+	.SidebarContent::-webkit-scrollbar {
+		display: none;
+	  }
+	.CreateButton {
+		position: absolute;
+		box-sizing: border-box;
+		bottom: 0;
+		left: 0;
+		padding: 2rem;
+		display: flex;
+		width: 100%;
+		.Button {
+			flex-grow: 1;
+			color: white;
+		}
+	}
 }
