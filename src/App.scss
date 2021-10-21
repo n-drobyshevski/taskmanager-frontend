@@ -9,11 +9,13 @@ $d-blue-color: #2980b9;
 $gray-color: #c7d3d6;
 $text-secondary-color: #a1aeb7;
 $text-color: #505d68;
+$shadow-regular: 0px 8px 16px rgba(0, 0, 0, 0.15);
 $font-family-heading: "Chivo";
 $font-family-paragraph: "Overpass";
 $h1: 2.441rem;
 $h2: 1.953rem;
 $h4: 1.25rem;
+$h5: 1rem;
 $p5: 1rem;
 $p4: 1.25rem;
 $p6: 0.8rem;
@@ -46,7 +48,7 @@ li {
 	display: flex;
 	gap: 0.5rem;
 	align-items: center;
-	padding: .5rem;
+	padding: 0.5rem;
 	p {
 		font-family: $font-family-paragraph;
 		flex-grow: 1;
@@ -126,9 +128,53 @@ input {
 
 .Main {
 	grid-area: main;
-	@include border($dark-color);
-	color: white;
+	border-radius: 0.25rem;
+	color: $text-color;
+	padding: 2.25rem 4rem;
 	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+	z-index: 3;
+	box-shadow: -5px -5px 10px rgba(199, 211, 214, 1);
+	.Label {
+		font-size: $h2;
+		font-family: $font-family-heading;
+	}
+	.RecordsList {
+		display:flex;
+		flex-direction: column;
+		gap:1rem;
+		.RecordCard {
+			display: flex;
+			@include border($gray-color);
+			box-shadow: $shadow-regular;
+			.CheckboxContainer {
+				background-color: $dark-color;
+				display: flex;
+				padding: 0 0.5rem;
+				align-items: center;
+				justify-content: center;
+			}
+			.CardContainer {
+				padding: 1rem;
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+				width: 100%;
+				.CardHeader {
+					display: flex;
+					p {
+						width: 100%;
+						font-family: $font-family-heading;
+						font-size: $h4;
+					}
+				}
+				p {
+					font-family: $font-family-paragraph;
+				}
+			}
+		}
+	}
 }
 .Sidebar {
 	grid-area: sidebar;
@@ -156,13 +202,16 @@ input {
 				color: $text-secondary-color;
 				align-items: center;
 				p {
+					font-size: $p5;
 					flex-grow: 1;
 				}
 			}
 		}
 		hr {
 			margin: 1.5rem 0;
-			color: $text-secondary-color;
+			height: 2px;
+			border-width: 0;
+			background-color: $text-secondary-color;
 		}
 	}
 	/* Hide scrollbar for Chrome, Safari and Opera */
