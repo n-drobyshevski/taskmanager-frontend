@@ -9,10 +9,15 @@ $d-blue-color: #2980b9;
 $gray-color: #c7d3d6;
 $text-secondary-color: #a1aeb7;
 $text-color: #505d68;
-$outer-shadow: 9px 9px 16px rgba(189, 189, 189, 0.6),
-	-9px -9px 16px rgba(255, 255, 255, 0.5);
-$inset-shadow: inset 10px 10px 15px -10px #c3c3c3,
+$outer-shadow: 9px 9px 16px #c9cccd, -9px -9px 16px rgba(255, 255, 255, 0.5);
+$inset-shadow: inset 10px 10px 15px -10px #c9cccd,
 	inset -10px -10px 15px -10px #ffffff;
+$shadow1: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+$shadow1-hover: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+$shadow2: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+$shadow3: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+$shadow4: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+$shadow5: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
 $font-family-heading: "Chivo";
 $font-family-paragraph: "Overpass";
 $h1: 2.441rem;
@@ -29,6 +34,25 @@ body,
 	height: 100%;
 	margin: 0;
 }
+* {
+	scrollbar-width: thin;
+	scrollbar-color: $dark-color $white-gray-color;
+  }
+  /* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+	width: .75rem;
+  }
+  
+  *::-webkit-scrollbar-track {
+	background: $white-gray-color;
+  }
+  
+  *::-webkit-scrollbar-thumb {
+	background-color: $dark-color;
+	border-radius: .25rem;
+	border: 1px solid $white-gray-color;
+  }
+  
 @mixin border($border-color: $dark-color) {
 	border: 1px solid $border-color;
 	border-radius: 0.25rem;
@@ -90,6 +114,7 @@ input {
 	width: 100%;
 	color: $text-color;
 	background-color: $white-gray-color;
+	overflow: hidden;
 }
 
 .Header {
@@ -123,55 +148,57 @@ input {
 	grid-area: main;
 	border-radius: 0.25rem;
 	color: $text-color;
-	padding: 2.25rem 4rem;
 	display: flex;
 	flex-direction: column;
-	gap: 2rem;
 	z-index: 3;
-	box-shadow: $outer-shadow;
+	box-shadow: $shadow2;
 	position: relative;
 	.Label {
 		font-size: $h2;
 		font-family: $font-family-heading;
-	}
-	.RecordsList {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-		position: absolute;
-		top: 6rem;
-		left: 4rem;
-		right: 4rem;
-		bottom: 0;
 		padding: 2rem;
-		box-shadow: $inset-shadow;
-		.RecordCard {
+		box-shadow: $shadow2;
+	}
+	.MainContent {
+		padding: 0 4rem;
+		overflow-y: scroll;
+		.RecordsList {
+			margin: 2rem 0;
 			display: flex;
-			@include border($gray-color);
-			box-shadow: $outer-shadow;
-			.CheckboxContainer {
-				background-color: $dark-color;
+			flex-direction: column;
+			.RecordCard {
 				display: flex;
-				padding: 0 0.5rem;
-				align-items: center;
-				justify-content: center;
-			}
-			.CardContainer {
-				padding: 1rem;
-				display: flex;
-				flex-direction: column;
-				gap: 1rem;
-				width: 100%;
-				.CardHeader {
-					display: flex;
-					p {
-						width: 100%;
-						font-family: $font-family-heading;
-						font-size: $h4;
-					}
+				margin-bottom: 1rem;
+				box-shadow: $shadow1;
+				&:last-child{
+					margin-bottom:0;
 				}
-				p {
-					font-family: $font-family-paragraph;
+				.CheckboxContainer {
+					background-color: $dark-color;
+					display: flex;
+					padding: 0 0.5rem;
+					align-items: center;
+					justify-content: center;
+				}
+				.CardContainer {
+					padding: 1rem;
+					display: flex;
+					flex-direction: column;
+					gap: 1rem;
+					width: 100%;
+					text-shadow: 9px 9px 16px rgba(189, 189, 189, 0.6);
+					.CardHeader {
+						display: flex;
+						p {
+							width: 100%;
+							font-family: $font-family-heading;
+							font-size: $h4;
+						}
+					}
+					p {
+						line-height: 1.2rem;
+						font-family: $font-family-paragraph;
+					}
 				}
 			}
 		}
