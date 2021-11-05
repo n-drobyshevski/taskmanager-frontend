@@ -37,22 +37,22 @@ body,
 * {
 	scrollbar-width: thin;
 	scrollbar-color: $dark-color $white-gray-color;
-  }
-  /* Works on Chrome, Edge, and Safari */
+}
+/* Works on Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
-	width: .75rem;
-  }
-  
-  *::-webkit-scrollbar-track {
+	width: 0.75rem;
+}
+
+*::-webkit-scrollbar-track {
 	background: $white-gray-color;
-  }
-  
-  *::-webkit-scrollbar-thumb {
+}
+
+*::-webkit-scrollbar-thumb {
 	background-color: $dark-color;
-	border-radius: .25rem;
+	border-radius: 0.25rem;
 	border: 1px solid $white-gray-color;
-  }
-  
+}
+
 @mixin border($border-color: $dark-color) {
 	border: 1px solid $border-color;
 	border-radius: 0.25rem;
@@ -107,7 +107,8 @@ input {
 .Button.blue.outline {
 	@include outline($d-blue-color);
 }
-
+.CheckContainer {
+}
 .App {
 	grid: "header header" 15% "sidebar main" 85% / [sidebar] 25% [main] 1fr 2rem;
 	display: grid;
@@ -170,15 +171,69 @@ input {
 				display: flex;
 				margin-bottom: 1rem;
 				box-shadow: $shadow1;
-				&:last-child{
-					margin-bottom:0;
+				border-radius: .25rem;
+				&:last-child {
+					margin-bottom: 0;
 				}
-				.CheckboxContainer {
+				.CheckContainer {
 					background-color: $dark-color;
 					display: flex;
-					padding: 0 0.5rem;
 					align-items: center;
 					justify-content: center;
+					width:3rem;
+					border-top-left-radius: .25rem;
+					border-bottom-left-radius: .25rem;
+					.check {
+						cursor: pointer;
+						width: 18px;
+						height: 18px;
+						-webkit-tap-highlight-color: transparent;
+						transform: translate3d(0, 0, 0);
+						padding:0;
+						border:none;
+						background-color: transparent;
+						svg {
+							position: relative;
+							z-index: 1;
+							fill: none;
+							stroke-linecap: round;
+							stroke-linejoin: round;
+							stroke: #c8ccd4;
+							stroke-width: 1.5;
+							transform: translate3d(0, 0, 0);
+							transition: all 0.2s ease;
+						}
+						path {
+							stroke-dasharray: 60;
+							stroke-dashoffset: 0;
+						}
+						polyline {
+							stroke-dasharray: 22;
+							stroke-dashoffset: 66;
+						}
+						&:hover {
+							&:before {
+								opacity: 1;
+							}
+							svg {
+								stroke: $d-blue-color;
+							}
+						}
+					}
+					.check.clicked {
+						svg {
+							stroke: $d-blue-color;
+							path {
+								stroke-dashoffset: 60;
+								transition: all 0.3s linear;
+							}
+							polyline {
+								stroke-dashoffset: 42;
+								transition: all 0.2s linear;
+								transition-delay: 0.15s;
+							}
+						}
+					}
 				}
 				.CardContainer {
 					padding: 1rem;

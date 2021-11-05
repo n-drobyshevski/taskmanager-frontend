@@ -19,10 +19,16 @@ function Button(props) {
 }
 
 function RecordCard(props) {
+  let [finished, setFinished ]= useState(false);
   return (
     <div className="RecordCard">
-      <div className="CheckboxContainer">
-        <input type="checkbox" id="statusCheckbox" name="statusCheckbox" defaultValue="finished" />
+      <div className="CheckContainer">
+        <button className={finished ? "check clicked" :"check"} onClick={()=>setFinished(!finished)}>
+          <svg width="18px" height="18px" viewBox="0 0 18 18">
+            <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
+            <polyline points="1 9 7 14 15 4"></polyline>
+          </svg>
+        </button>
       </div>
       <div className="CardContainer">
         <div className="CardHeader">
@@ -59,25 +65,25 @@ function Main() {
     <div className="Main">
       <p className="Label">Today</p>
       <div className="MainContent">
-      <div className="RecordsList">
-        <RecordCard title="Card title"
-          text=" Some quick example text to build on the card title and make up the bulk of the card's content.">
-        </RecordCard>
-        <RecordCard title="Card title"
-          text=" Some quick example text to build on the card title and make up the bulk of the card's content.">
-        </RecordCard>
-        <RecordCard title="Card title"
-          text=" Some quick example text to build on the card title and make up the bulk of the card's content. 
+        <div className="RecordsList">
+          <RecordCard title="Card title" id={'1'}
+            text=" Some quick example text to build on the card title and make up the bulk of the card's content.">
+          </RecordCard>
+          <RecordCard title="Card title" id={'2'}
+            text=" Some quick example text to build on the card title and make up the bulk of the card's content.">
+          </RecordCard>
+          <RecordCard title="Card title" id={'3'}
+            text=" Some quick example text to build on the card title and make up the bulk of the card's content. 
           Some quick example text to build on the card title and make up the bulk of the card's content.
           Some quick example text to build on the card title and make up the bulk of the card's content.">
-        </RecordCard>
-        <RecordCard title="Card title"
-          text=" Some quick example text to build on the card title and make up the bulk of the card's content.">
-        </RecordCard>
-        <RecordCard title="Card title"
-          text=" Some quick example text to build on the card title and make up the bulk of the card's content.">
-        </RecordCard>
-      </div>
+          </RecordCard>
+          <RecordCard title="Card title" id={'4'}
+            text=" Some quick example text to build on the card title and make up the bulk of the card's content.">
+          </RecordCard>
+          <RecordCard title="Card title" id={'5'}
+            text=" Some quick example text to build on the card title and make up the bulk of the card's content.">
+          </RecordCard>
+        </div>
       </div>
     </div>
   );
