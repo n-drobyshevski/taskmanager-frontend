@@ -58,13 +58,14 @@ body,
 	border-radius: 0.25rem;
 }
 @mixin fill($fill-color: $dark-color) {
-	color: $fill-color;
+	color: white;
 	background-color: $fill-color;
 	border-radius: 0.25rem;
-	border: none;
+	border:0;
 }
 @mixin outline($border-color: $dark-color) {
 	background-color: transparent;
+	color:$border-color;
 	@include border($border-color);
 }
 a {
@@ -107,10 +108,8 @@ input {
 .Button.blue.outline {
 	@include outline($d-blue-color);
 }
-.CheckContainer {
-}
 .App {
-	grid: "header header" 15% "sidebar main" 85% / [sidebar] 25% [main] 1fr 2rem;
+	grid: "header header" 6rem "sidebar main" 85% / [sidebar] 22rem [main] 1fr 2rem;
 	display: grid;
 	width: 100%;
 	color: $text-color;
@@ -122,7 +121,7 @@ input {
 	grid-area: header;
 	display: flex;
 	.Logo {
-		width: 25%;
+		width: 22rem;
 		padding: 2rem;
 		align-self: flex-start;
 		box-sizing: border-box;
@@ -134,8 +133,34 @@ input {
 		display: flex;
 		flex: 1 0 auto;
 		gap: 0.5rem;
-		input {
-			background-color: $white-gray-color;
+		form {
+			position: relative;
+			width:30rem;
+			input {
+				position: relative;
+				width:100%;
+				border-radius: 0.25rem;
+				appearance: none; //for ios. input[type="search"] roundedness issue. border-radius alone doesn't work
+				background-color: $white-gray-color;
+				transition: all 0.3s;
+			}
+			button {
+				display: none;
+				position: absolute;
+				top: 0;
+				right: 0;
+				width: 6rem;
+				background: $dark-color;
+				border-radius: 0 0.25rem 0.25rem 0;
+				border: 1px solid $dark-color
+			}
+			input:not(:placeholder-shown) {
+				border-radius: .25rem 0 0 .25rem;
+				width: 24rem;
+				+ button {
+					display: block;
+				}
+			}
 		}
 	}
 	.LoginRegister {
@@ -171,7 +196,7 @@ input {
 				display: flex;
 				margin-bottom: 1rem;
 				box-shadow: $shadow1;
-				border-radius: .25rem;
+				border-radius: 0.25rem;
 				&:last-child {
 					margin-bottom: 0;
 				}
@@ -180,17 +205,17 @@ input {
 					display: flex;
 					align-items: center;
 					justify-content: center;
-					width:3rem;
-					border-top-left-radius: .25rem;
-					border-bottom-left-radius: .25rem;
+					width: 3rem;
+					border-top-left-radius: 0.25rem;
+					border-bottom-left-radius: 0.25rem;
 					.check {
 						cursor: pointer;
 						width: 18px;
 						height: 18px;
 						-webkit-tap-highlight-color: transparent;
 						transform: translate3d(0, 0, 0);
-						padding:0;
-						border:none;
+						padding: 0;
+						border: none;
 						background-color: transparent;
 						svg {
 							position: relative;
