@@ -1,18 +1,25 @@
 // import logo from './logo.svg';
 import './App.scss';
-import { useState } from 'react';
+import { useState, useEffect} from 'react';
 function App() {
+  let [loginActive, loginSetActive] = useState(false);
   return (
     <div className="App">
-      <Header />
+      <Header loginActive={()=>loginSetActive(true)}/>
       <Sidebar />
       <Main />
+      <LogIn active={loginActive}/>
     </div>
   );
 }
 function Button(props) {
+  const {clicked:[clicked, setClicked]}={clicked:useState({}),...(props.state || {}),};
+  function click(e){
+    console.log('--click');
+    setClicked(e.detail);
+  }
   return (
-    <button type={props.type} className={`Button ${props.color} ${props.outline ? props.outline : ''}`}>
+    <button onClick={click} type={props.type} className={`Button ${props.color} ${props.outline ? props.outline : ''}`}>
       {props.children}
     </button>
   )
@@ -34,8 +41,8 @@ function RecordCard(props) {
         <div className="CardHeader">
           <p>{props.title}</p>
           <svg width="20" height="6" viewBox="0 0 20 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fillRule="evenodd" clipRule="evenodd" d="M2.5 5.25C1.90326 5.25 1.33097 5.01295 0.90901 4.59099C0.487053 4.16903 0.25 3.59674 0.25 3C0.25 2.40326 0.487053 1.83097 0.90901 1.40901C1.33097 0.987053 1.90326 0.75 2.5 0.75C3.09674 0.75 3.66903 0.987053 4.09099 1.40901C4.51295 1.83097 4.75 2.40326 4.75 3C4.75 3.59674 4.51295 4.16903 4.09099 4.59099C3.66903 5.01295 3.09674 5.25 2.5 5.25ZM10 5.25C9.40326 5.25 8.83097 5.01295 8.40901 4.59099C7.98705 4.16903 7.75 3.59674 7.75 3C7.75 2.40326 7.98705 1.83097 8.40901 1.40901C8.83097 0.987053 9.40326 0.75 10 0.75C10.5967 0.75 11.169 0.987053 11.591 1.40901C12.0129 1.83097 12.25 2.40326 12.25 3C12.25 3.59674 12.0129 4.16903 11.591 4.59099C11.169 5.01295 10.5967 5.25 10 5.25ZM17.5 5.25C16.9033 5.25 16.331 5.01295 15.909 4.59099C15.4871 4.16903 15.25 3.59674 15.25 3C15.25 2.40326 15.4871 1.83097 15.909 1.40901C16.331 0.987053 16.9033 0.75 17.5 0.75C18.0967 0.75 18.669 0.987053 19.091 1.40901C19.5129 1.83097 19.75 2.40326 19.75 3C19.75 3.59674 19.5129 4.16903 19.091 4.59099C18.669 5.01295 18.0967 5.25 17.5 5.25Z" 
-            fill='#00000099' />
+            <path fillRule="evenodd" clipRule="evenodd" d="M2.5 5.25C1.90326 5.25 1.33097 5.01295 0.90901 4.59099C0.487053 4.16903 0.25 3.59674 0.25 3C0.25 2.40326 0.487053 1.83097 0.90901 1.40901C1.33097 0.987053 1.90326 0.75 2.5 0.75C3.09674 0.75 3.66903 0.987053 4.09099 1.40901C4.51295 1.83097 4.75 2.40326 4.75 3C4.75 3.59674 4.51295 4.16903 4.09099 4.59099C3.66903 5.01295 3.09674 5.25 2.5 5.25ZM10 5.25C9.40326 5.25 8.83097 5.01295 8.40901 4.59099C7.98705 4.16903 7.75 3.59674 7.75 3C7.75 2.40326 7.98705 1.83097 8.40901 1.40901C8.83097 0.987053 9.40326 0.75 10 0.75C10.5967 0.75 11.169 0.987053 11.591 1.40901C12.0129 1.83097 12.25 2.40326 12.25 3C12.25 3.59674 12.0129 4.16903 11.591 4.59099C11.169 5.01295 10.5967 5.25 10 5.25ZM17.5 5.25C16.9033 5.25 16.331 5.01295 15.909 4.59099C15.4871 4.16903 15.25 3.59674 15.25 3C15.25 2.40326 15.4871 1.83097 15.909 1.40901C16.331 0.987053 16.9033 0.75 17.5 0.75C18.0967 0.75 18.669 0.987053 19.091 1.40901C19.5129 1.83097 19.75 2.40326 19.75 3C19.75 3.59674 19.5129 4.16903 19.091 4.59099C18.669 5.01295 18.0967 5.25 17.5 5.25Z"
+              fill='#00000099' />
           </svg>
         </div>
         <p>{props.text}</p>
@@ -43,9 +50,16 @@ function RecordCard(props) {
     </div>
   )
 }
-function Header() {
-  function onSubmitChange (){
-    console.log('submit//');
+function Header(props) {
+  const [loginClicked, setLoginClicked] = useState();
+  useEffect(() => {
+    if (loginClicked){
+      props.loginActive();
+    }
+  });
+  function loginClick(props){
+    console.log('loginClick');
+    props.onLoginClick();
   }
   return (
     <div className="Header">
@@ -53,13 +67,13 @@ function Header() {
         <h1>トド リスト</h1>
       </div>
       <div className="Search">
-        <form onSubmit={()=>onSubmitChange} role="search">
+        <form onSubmit={()=>console.log('OnSubmit')} role="search">
           <input id="search" type="search" placeholder="Search..." autoFocus required />
-          <Button color='blue' type="submit">Go</Button>
+          <Button color='blue' type="submit">Search</Button>
         </form>
       </div>
       <div className="LoginRegister">
-        <Button color="blue" outline="outline">Log In</Button>
+        <Button color="blue" outline="outline" state={{clicked:[loginClicked, setLoginClicked]}} onClickChange={loginClick}>Log In</Button>
         <Button color="secondary" outline="outline">Sign Up</Button>
       </div>
     </div>
@@ -151,7 +165,6 @@ function Sidebar() {
 function Accordion(props) {
   let [active, setActive] = useState(false);
   function click() {
-    console.log('clicked');
     setActive(!active);
   }
   return (
@@ -159,7 +172,7 @@ function Accordion(props) {
       <div className="Label" onClick={click}>
         <p>{props.label}</p>
         <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path fillRule="evenodd" clipRule="evenodd" d="M0.646039 0.646043C0.692485 0.59948 0.747661 0.562537 0.808406 0.53733C0.869151 0.512124 0.934272 0.499149 1.00004 0.499149C1.06581 0.499149 1.13093 0.512124 1.19167 0.53733C1.25242 0.562537 1.30759 0.59948 1.35404 0.646043L7.00004 6.29304L12.646 0.646043C12.6925 0.599555 12.7477 0.562679 12.8085 0.537519C12.8692 0.51236 12.9343 0.499411 13 0.499411C13.0658 0.499411 13.1309 0.51236 13.1916 0.537519C13.2524 0.562679 13.3075 0.599555 13.354 0.646043C13.4005 0.692531 13.4374 0.74772 13.4626 0.808459C13.4877 0.869199 13.5007 0.934299 13.5007 1.00004C13.5007 1.06579 13.4877 1.13089 13.4626 1.19163C13.4374 1.25237 13.4005 1.30756 13.354 1.35404L7.35404 7.35404C7.30759 7.40061 7.25242 7.43755 7.19167 7.46276C7.13093 7.48796 7.06581 7.50094 7.00004 7.50094C6.93427 7.50094 6.86915 7.48796 6.80841 7.46276C6.74766 7.43755 6.69248 7.40061 6.64604 7.35404L0.646039 1.35404C0.599476 1.3076 0.562533 1.25242 0.537327 1.19168C0.51212 1.13093 0.499146 1.06581 0.499146 1.00004C0.499146 0.934276 0.51212 0.869154 0.537327 0.808409C0.562533 0.747664 0.599476 0.692489 0.646039 0.646043V0.646043Z" fill="#A1AEB7" />
+          <path fillRule="evenodd" clipRule="evenodd" d="M0.646039 0.646043C0.692485 0.59948 0.747661 0.562537 0.808406 0.53733C0.869151 0.512124 0.934272 0.499149 1.00004 0.499149C1.06581 0.499149 1.13093 0.512124 1.19167 0.53733C1.25242 0.562537 1.30759 0.59948 1.35404 0.646043L7.00004 6.29304L12.646 0.646043C12.6925 0.599555 12.7477 0.562679 12.8085 0.537519C12.8692 0.51236 12.9343 0.499411 13 0.499411C13.0658 0.499411 13.1309 0.51236 13.1916 0.537519C13.2524 0.562679 13.3075 0.599555 13.354 0.646043C13.4005 0.692531 13.4374 0.74772 13.4626 0.808459C13.4877 0.869199 13.5007 0.934299 13.5007 1.00004C13.5007 1.06579 13.4877 1.13089 13.4626 1.19163C13.4374 1.25237 13.4005 1.30756 13.354 1.35404L7.35404 7.35404C7.30759 7.40061 7.25242 7.43755 7.19167 7.46276C7.13093 7.48796 7.06581 7.50094 7.00004 7.50094C6.93427 7.50094 6.86915 7.48796 6.80841 7.46276C6.74766 7.43755 6.69248 7.40061 6.64604 7.35404L0.646039 1.35404C0.599476 1.3076 0.562533 1.25242 0.537327 1.19168C0.51212 1.13093 0.499146 1.06581 0.499146 1.00004C0.499146 0.934276 0.51212 0.869154 0.537327 0.808409C0.562533 0.747664 0.599476 0.692489 0.646039 0.646043V0.646043Z" fill="#00000099" />
         </svg>
       </div>
       <ul className="AccordionContent">
@@ -177,6 +190,28 @@ function ListItem(props) {
       {props.svg}
       <p>{props.text}</p>
     </li>
+  )
+}
+function LogIn(props) {
+  return (
+    <div className={props.active ?"LogIn active" : "LogIn"}>
+      <div className="Container">
+        <div className="Label">
+          <p >Log In</p>
+        </div>
+        <form>
+          <label htmlFor="username">Username</label>
+          <input id="username" name="username" type="text" autoFocus required></input>
+          <label htmlFor="password">Password</label>
+          <input id="password" name="password" type="text" required></input>
+        </form>
+        <div className="LogInFooter">
+          <Button color="dark">Log in</Button>
+          <p>Don't have one account yet? <span>Sign Up</span></p>
+
+        </div>
+      </div>
+    </div>
   )
 }
 export default App;

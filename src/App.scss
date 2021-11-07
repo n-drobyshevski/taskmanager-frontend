@@ -3,28 +3,24 @@
 
 $color-background: #ecf0f1;
 $color-surface: #ffffff;
-$color-p-dark:#031828;
+$color-p-dark: #031828;
 $color-primary: #2c3e50;
-$color-p-light:#57687c;
+$color-p-light: #57687c;
 $color-red: #e74c3c;
 $color-s-light: #73c9ff;
 $color-secondary: #3498db;
 $color-s-dark: #006aa9;
-$color-on-s:#000000;
-$color-on-p:#ffffff;
-$color-text-on-light-1:#000000de;
-$color-text-on-light-2:#00000099;
-$color-text-on-light-disabled:#00000061;
-$color-text-on-dark-1:#ffffffde;
-$color-text-on-dark-2:#ffffff99;
-$color-text-on-dark-disabled:#ffffff61;
-$color-overlay-hovered:#3498db0a;
-$color-overlay-pressed:#3498db1a;
-$color-overlay-focused:#3498db1f;
-$gray-color: #c7d3d6;		
-$text-secondary-color: #a1aeb7;
-$text-color: #505d68;
-
+$color-on-s: #000000;
+$color-on-p: #ffffff;
+$color-text-on-light-1: #000000de;
+$color-text-on-light-2: #00000099;
+$color-text-on-light-disabled: #00000061;
+$color-text-on-dark-1: #ffffffde;
+$color-text-on-dark-2: #ffffff99;
+$color-text-on-dark-disabled: #ffffff61;
+$color-overlay-hovered: #3498db0a;
+$color-overlay-pressed: #3498db1a;
+$color-overlay-focused: #3498db1f;
 
 $outer-shadow: 9px 9px 16px #c9cccd, -9px -9px 16px rgba(255, 255, 255, 0.5);
 $inset-shadow: inset 10px 10px 15px -10px #c9cccd,
@@ -78,11 +74,11 @@ body,
 	color: white;
 	background-color: $fill-color;
 	border-radius: 0.25rem;
-	border:0;
+	border: 0;
 }
 @mixin outline($border-color: $color-primary) {
 	background-color: transparent;
-	color:$border-color;
+	color: $border-color;
 	@include border($border-color);
 }
 a {
@@ -95,8 +91,8 @@ input {
 	font-size: $p5;
 	font-family: $font-family-paragraph;
 	text-decoration: none;
-	color: $text-secondary-color;
-	@include border($text-color);
+	color: $color-text-on-light-2;
+	@include border($color-text-on-light-2);
 	height: min-content;
 }
 .Button {
@@ -114,10 +110,10 @@ input {
 	@include outline($color-primary);
 }
 .Button.secondary {
-	@include fill($text-color);
+	@include fill($color-text-on-light-2);
 }
 .Button.secondary.outline {
-	@include outline($text-color);
+	@include outline($color-text-on-light-2);
 }
 .Button.blue {
 	@include fill($color-secondary);
@@ -132,6 +128,7 @@ input {
 	color: $color-text-on-light-2;
 	background-color: $color-background;
 	overflow: hidden;
+	position: relative;
 }
 
 .Header {
@@ -152,19 +149,19 @@ input {
 		gap: 0.5rem;
 		form {
 			position: relative;
-			width:30rem;
+			width: 30rem;
 			input {
 				z-index: 1;
 				outline: 0;
 				position: relative;
-				width:100%;
+				width: 100%;
 				border-radius: 0.25rem;
 				appearance: none; //for ios. input[type="search"] roundedness issue. border-radius alone doesn't work
 				background-color: $color-background;
-				transition: all 0.3s cubic-bezier(.77,0,.18,1);
+				transition: all 0.3s cubic-bezier(0.77, 0, 0.18, 1);
 				transition-property: border, width;
-				color:$color-text-on-light-2;
-				border-color:$color-text-on-light-2;
+				color: $color-text-on-light-2;
+				border-color: $color-text-on-light-2;
 			}
 			button {
 				display: block;
@@ -175,15 +172,15 @@ input {
 				background: $color-primary;
 				border-radius: 0 0.25rem 0.25rem 0;
 				border: 1px solid $color-primary;
-				color:$color-text-on-dark-1;
+				color: $color-text-on-dark-1;
 			}
-			input:focus{
+			input:focus {
 				border-color: $color-secondary;
 			}
 			input:not(:placeholder-shown) {
-				border-radius: .25rem 0 0 .25rem;
+				border-radius: 0.25rem 0 0 0.25rem;
 				width: 24rem;
-				color:$color-on-s;
+				color: $color-on-s;
 			}
 		}
 	}
@@ -193,7 +190,6 @@ input {
 		padding: 2rem 0;
 	}
 }
-
 .Main {
 	background-color: $color-surface;
 	grid-area: main;
@@ -427,5 +423,79 @@ input {
 			flex-grow: 1;
 			color: $color-text-on-dark-1;
 		}
+	}
+}
+.LogIn {
+	display: none;
+	z-index: 5;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	align-items: center;
+	justify-content: center;
+	background-color: #00000099;
+	.Container {
+		display: flex;
+		flex-direction: column;
+		align-self: center;
+		width: 32rem;
+		height: min-content;
+		background-color: $color-surface;
+		border: 1px solid $color-p-light;
+		border-radius: 0.25rem;
+		padding: 2rem 6rem;
+		gap: 3rem;
+		box-sizing: border-box;
+		.Label {
+			width: 100%;
+			height: min-content;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			p {
+				font-size: $h2;
+				font-family: $font-family-heading;
+			}
+		}
+		form {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			label {
+				color: $color-text-on-light-1;
+				font-size: $h5;
+				font-family: $font-family-heading;
+			}
+			input {
+				color: $color-text-on-light-2;
+				border-color: $color-text-on-light-2;
+				font-size: $p5;
+				font-family: $font-family-paragraph;
+				margin-bottom: 0.5rem;
+				&:last-child {
+					margin: 0;
+				}
+				&:focus {
+					outline: 0;
+					border-color: $color-secondary;
+				}
+			}
+		}
+		.LogInFooter {
+			display: flex;
+			flex-direction: column;
+			p {
+				text-align: center;
+				margin-top: 1rem;
+				span {
+					display: inline-block;
+					color: $color-secondary;
+					cursor: pointer;
+				}
+			}
+		}
+	}
+	&.active {
+		display: flex;
 	}
 }
