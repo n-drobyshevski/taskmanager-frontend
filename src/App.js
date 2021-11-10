@@ -1,22 +1,22 @@
 // import logo from './logo.svg';
 import './App.scss';
-import { useState, useEffect} from 'react';
+import { useState, useEffect, useRef} from 'react';
+
 function App() {
-  let [loginActive, loginSetActive] = useState(false);
+  let [loginActive, setLoginActive] = useState(false);
   return (
     <div className="App">
-      <Header loginActive={()=>loginSetActive(true)}/>
+      <Header loginActive={()=>setLoginActive(true)}/>
       <Sidebar />
       <Main />
-      <LogIn active={loginActive}/>
+      <LogIn state={{active:[loginActive, setLoginActive]}}/>
     </div>
   );
 }
 function Button(props) {
   const {clicked:[clicked, setClicked]}={clicked:useState({}),...(props.state || {}),};
-  function click(e){
-    console.log('--click');
-    setClicked(e.detail);
+  function click(){
+    setClicked(!clicked);
   }
   return (
     <button onClick={click} type={props.type} className={`Button ${props.color} ${props.outline ? props.outline : ''}`}>
@@ -57,23 +57,19 @@ function Header(props) {
       props.loginActive();
     }
   });
-  function loginClick(props){
-    console.log('loginClick');
-    props.onLoginClick();
-  }
   return (
     <div className="Header">
       <div className="Logo">
         <h1>トド リスト</h1>
       </div>
       <div className="Search">
-        <form onSubmit={()=>console.log('OnSubmit')} role="search">
+        <form onSubmit={()=>console.log('OnSubmit {Header}')} role="search">
           <input id="search" type="search" placeholder="Search..." autoFocus required />
           <Button color='blue' type="submit">Search</Button>
         </form>
       </div>
       <div className="LoginRegister">
-        <Button color="blue" outline="outline" state={{clicked:[loginClicked, setLoginClicked]}} onClickChange={loginClick}>Log In</Button>
+        <Button color="blue" outline="outline" state={{clicked:[loginClicked, setLoginClicked]}}>Log In</Button>
         <Button color="secondary" outline="outline">Sign Up</Button>
       </div>
     </div>
@@ -193,12 +189,13 @@ function ListItem(props) {
   )
 }
 function LogIn(props) {
+  const {active:[active, setActive]}={active:useState({}),...(props.state || {}),};
+  console.log('= = = = = = = rerender {LogIn} = = = = = = =')
+  console.log(active, ' -- active {LogIN}');
+  useEffect(()=>{console.log(active,"--active {LogIn useEff}")},[active]);
   return (
-    <div className={props.active ?"LogIn active" : "LogIn"}>
-      <div className="Container">
-        <div className="Label">
-          <p >Log In</p>
-        </div>
+    <div className={ active ?"LogIn active" : "LogIn"}>
+      <Modal label="Log In" state={{active:[active, setActive]}} >
         <form>
           <label htmlFor="username">Username</label>
           <input id="username" name="username" type="text" autoFocus required></input>
@@ -210,8 +207,49 @@ function LogIn(props) {
           <p>Don't have one account yet? <span>Sign Up</span></p>
 
         </div>
-      </div>
+      </Modal>
     </div>
+  )
+}
+function Modal(props){
+  const {active:[active, setActive]}={active:useState({}),...(props.state || {}),};
+  const areaRef = useRef(null); //needs for control that click is outside
+  console.log('= = = rerender {Modal} = = =');
+  //add and remove eventListeners on render
+  useEffect(()=>{
+    console.log( '-- useEff called {Modal}');
+    document.addEventListener("click", handleClickOutside);
+    return(()=>{document.removeEventListener("click", handleClickOutside);} );
+  });
+  
+  function handleClickOutside(event){
+    console.log('==================== entred in  handleClickOutside {Modal}');
+    console.log(active, '-- active {Modal}');
+    console.log(event.target.className);
+    const path = event.path || (event.composedPath && event.composedPath());
+    // console.log('path {Modal}---|')
+    // console.log(path);
+    // console.log('modalAreaRef.current {Modal}---|');
+    // console.log(modalAreaRef.current);
+    //if clicked outside of Modal but inside Login active
+    if (!path.includes(areaRef.current)&&(event.target.className ==="LogIn active") ) {
+    // if (event.target.className ==="LogIn active") {
+      console.log('handleClick entred in if {Modal}');
+        setActive(false);
+
+      console.log(active,'active after HandleClick{Modal}')
+    }else{
+      console.log('if not passed {Modal}');
+    }
+  };
+
+  return(
+    <div className="Modal" ref={areaRef}>
+        <div className="Label">
+          <p>{props.label}</p>
+        </div>
+        {props.children}
+      </div>
   )
 }
 export default App;
