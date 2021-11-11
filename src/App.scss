@@ -75,6 +75,7 @@ body,
 	background-color: $fill-color;
 	border-radius: 0.25rem;
 	border: 0;
+	@include border($fill-color);
 }
 @mixin outline($border-color: $color-primary) {
 	background-color: transparent;
@@ -426,7 +427,8 @@ input {
 	}
 }
 .SignIn,
-.LogIn {
+.LogIn,
+.LogOut {
 	display: flex;
 	z-index: 5;
 	position: absolute;
@@ -444,21 +446,40 @@ input {
 		background-color: $color-surface;
 		border: 1px solid $color-p-light;
 		border-radius: 0.25rem;
-		padding: 2rem 6rem;
+		// padding: 2rem 6rem;
 		gap: 3rem;
 		box-sizing: border-box;
+		.ModalHeader{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			border-bottom: 1px solid $color-p-light;
+			padding: 1rem 1.5rem; 
+			p{
+				width:100%;
+				font-size: $h4;
+				font-family: $font-family-heading;
+			}
+		}
 		.Label {
 			width: 100%;
 			height: min-content;
 			display: flex;
 			justify-content: center;
 			align-items: center;
+			padding-top: 2rem;
 			p {
 				font-size: $h2;
 				font-family: $font-family-heading;
 			}
 		}
+		.ModalContent{
+			font-family: $font-family-paragraph;
+			font-size: $p4;
+			padding: 0 4rem;
+		}
 		form {
+			padding: 0 6rem;	
 			display: flex;
 			flex-direction: column;
 			gap: 0.5rem;
@@ -482,7 +503,15 @@ input {
 				}
 			}
 		}
-		.Footer {
+		.Footer{
+			display: flex;
+			justify-content: flex-end;
+			padding:1rem;
+			border-top: 1px solid $color-p-light;
+			gap:1rem;
+		}
+		.RegFooter {
+			padding: 0 6rem 2rem 6rem;
 			display: flex;
 			flex-direction: column;
 			p {

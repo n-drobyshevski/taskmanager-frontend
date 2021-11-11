@@ -3,14 +3,17 @@ import './App.scss';
 import { useState, useEffect, useRef } from 'react';
 
 function App() {
+  const [logged, setLogged] = useState(true);
+  const [logOutActive, setLogOutActive] = useState(false);
   const [logInActive, setLogInActive] = useState(false);
   const [signInActive, setSignInActive] = useState(false);
   return (
     <div className="App">
-      <Header LogInClick={() => setLogInActive(true)} SignInClick={() => setSignInActive(true)} />
+      <Header logged={logged} LogInClick={() => setLogInActive(true)} LogOutClick={() => setLogOutActive(true)} SignInClick={() => setSignInActive(true)} />
       <Sidebar />
       <Main />
-      {logInActive && <LogIn closeLogIn={() => setLogInActive(false)}></LogIn>}
+      {logOutActive && <LogOut onLogOut={()=>{setLogged(false);setLogOutActive(false);}} closeLogOut={() => setLogOutActive(false)}></LogOut>}
+      {logInActive && <LogIn onLogIn={()=>{setLogged(true); setLogInActive(false);}} closeLogIn={() => setLogInActive(false)}></LogIn>}
       {signInActive && <SignIn closeSignIn={() => setSignInActive(false)}></SignIn>}
 
     </div>
@@ -25,6 +28,48 @@ function Button(props) {
     <button ref={buttonRef} onClick={click} type={props.type} className={`Button ${props.color} ${props.outline ? props.outline : ''}`}>
       {props.children}
     </button>
+  )
+}
+
+function Header(props) {
+  function onLogInClick(ref) {
+    if (ref.parentElement.className === 'LoginRegister') {
+      props.LogInClick();
+    }
+  }
+  function onSignInClick(ref) {
+    if (ref.parentElement.className === 'LoginRegister') {
+      props.SignInClick();
+    }
+  }
+  function onLogOutClick(ref) {
+    if (ref.parentElement.className === 'LoginRegister') {
+      props.LogOutClick();
+    }
+  }
+  return (
+    <div className="Header">
+      <div className="Logo">
+        <h1>トド リスト</h1>
+      </div>
+      <div className="Search">
+        <form onSubmit={() => console.log('OnSubmit {Header}')} role="search">
+          <input id="search" type="search" placeholder="Search..." autoFocus required />
+          <Button onClick={() => { }} color='blue' type="submit">Search</Button>
+        </form>
+      </div>
+      {props.logged ?
+        <div className="LoginRegister">
+          <Button color="blue" outline="outline" onClick={onLogInClick}>Profile</Button>
+          <Button color="blue" outline="outline" onClick={onLogOutClick}>Log Out</Button>
+        </div>
+        :
+        <div className="LoginRegister">
+          <Button color="blue" outline="outline" onClick={onLogInClick}>Log In</Button>
+          <Button color="secondary" outline="outline" onClick={onSignInClick}>Sign Up</Button>
+        </div>
+      }
+    </div>
   )
 }
 
@@ -49,36 +94,6 @@ function RecordCard(props) {
           </svg>
         </div>
         <p>{props.text}</p>
-      </div>
-    </div>
-  )
-}
-
-function Header(props) {
-  function onLogInClick(ref) {
-    if (ref.parentElement.className === 'LoginRegister') {
-      props.LogInClick();
-    }
-  }
-  function onSignInClick(ref) {
-    if (ref.parentElement.className === 'LoginRegister') {
-      props.SignInClick();
-    }
-  }
-  return (
-    <div className="Header">
-      <div className="Logo">
-        <h1>トド リスト</h1>
-      </div>
-      <div className="Search">
-        <form onSubmit={() => console.log('OnSubmit {Header}')} role="search">
-          <input id="search" type="search" placeholder="Search..." autoFocus required />
-          <Button onClick={() => { }} color='blue' type="submit">Search</Button>
-        </form>
-      </div>
-      <div className="LoginRegister">
-        <Button color="blue" outline="outline" onClick={onLogInClick}>Log In</Button>
-        <Button color="secondary" outline="outline" onClick={onSignInClick}>Sign Up</Button>
       </div>
     </div>
   )
@@ -196,6 +211,21 @@ function ListItem(props) {
     </li>
   )
 }
+function LogOut(props) {
+  return (
+    <div className="LogOut">
+      <Modal header="Log out" onClickOutside={() => { props.closeLogOut() }} >
+        <div className="ModalContent">
+          <p>You want to Log out?</p>
+        </div>
+        <div className="Footer">
+          <Button type="submit" onClick={()=>{props.closeLogOut()} } color="secondary" outline='outline'>Cancel</Button>
+          <Button type="submit" onClick={() => { props.onLogOut()}} color="dark">Log Out</Button>
+        </div>
+      </Modal>
+    </div>
+  )
+}
 function LogIn(props) {
   return (
     <div className="LogIn">
@@ -206,8 +236,8 @@ function LogIn(props) {
           <label htmlFor="password">Password</label>
           <input id="password" name="password" type="text" required></input>
         </form>
-        <div className="Footer">
-          <Button type="submit" onClick={() => { }} color="dark">Log in</Button>
+        <div className="RegFooter">
+          <Button type="submit" onClick={() => { props.onLogIn()}} color="dark">Log in</Button>
           <p>Don't have one account yet? <span>Sign Up</span></p>
         </div>
       </Modal>
@@ -228,7 +258,7 @@ function SignIn(props) {
           <label htmlFor="password-confirm">Password confirmation</label>
           <input id="password-confirm" name="password-confirm" type="text" required></input>
         </form>
-        <div className="Footer">
+        <div className="RegFooter">
           <Button type="submit" onClick={() => { }} color="dark">Sign in</Button>
           <p>Already have one account ? <span>Sign Up</span></p>
         </div>
@@ -254,9 +284,18 @@ function Modal(props) {
 
   return (
     <div className="Modal" ref={areaRef}>
-      <div className="Label">
-        <p>{props.label}</p>
-      </div>
+      {props.label &&
+        <div className="Label">
+          <p>{props.label}</p>
+        </div>}
+      {props.header &&
+        <div className="ModalHeader">
+          <p>{props.header}</p>
+          <svg className="close" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fillRule="evenodd" clipRule="evenodd" d="M7.6979 6L12 10.3021L10.3021 12L6 7.6979L1.6979 12L0 10.3021L4.3021 6L0 1.6979L1.6979 0L6 4.3021L10.3021 0L12 1.6979L7.6979 6Z" fill="#505D68" />
+          </svg>
+        </div>
+      }
       {props.children}
     </div>
   )
