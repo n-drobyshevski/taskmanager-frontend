@@ -426,7 +426,7 @@ input {
 	}
 }
 .LogIn {
-	display: none;
+	display: flex;
 	z-index: 5;
 	position: absolute;
 	width: 100%;
@@ -494,8 +494,5 @@ input {
 				}
 			}
 		}
-	}
-	&.active {
-		display: flex;
 	}
 }
