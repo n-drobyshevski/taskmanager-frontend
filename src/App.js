@@ -3,15 +3,18 @@ import './App.scss';
 import { useState, useEffect, useRef } from 'react';
 
 function App() {
-  let [loginActive, setLoginActive] = useState(false);
-return (
-  <div className="App">
-    <Header LoginClick={()=>setLoginActive(true)} />
-    <Sidebar />
-    <Main />
-    {loginActive && <LogIn closeLogin={()=>setLoginActive(false)}></LogIn>}
-  </div>
-);
+  const [logInActive, setLogInActive] = useState(false);
+  const [signInActive, setSignInActive] = useState(false);
+  return (
+    <div className="App">
+      <Header LogInClick={() => setLogInActive(true)} SignInClick={() => setSignInActive(true)} />
+      <Sidebar />
+      <Main />
+      {logInActive && <LogIn closeLogIn={() => setLogInActive(false)}></LogIn>}
+      {signInActive && <SignIn closeSignIn={() => setSignInActive(false)}></SignIn>}
+
+    </div>
+  );
 }
 function Button(props) {
   const buttonRef = useRef(null)
@@ -52,9 +55,14 @@ function RecordCard(props) {
 }
 
 function Header(props) {
-  function onLoginClick(ref){
-    if (ref.parentElement.className==='LoginRegister'){
-      props.LoginClick();
+  function onLogInClick(ref) {
+    if (ref.parentElement.className === 'LoginRegister') {
+      props.LogInClick();
+    }
+  }
+  function onSignInClick(ref) {
+    if (ref.parentElement.className === 'LoginRegister') {
+      props.SignInClick();
     }
   }
   return (
@@ -65,12 +73,12 @@ function Header(props) {
       <div className="Search">
         <form onSubmit={() => console.log('OnSubmit {Header}')} role="search">
           <input id="search" type="search" placeholder="Search..." autoFocus required />
-          <Button onClick={()=>{}} color='blue' type="submit">Search</Button>
+          <Button onClick={() => { }} color='blue' type="submit">Search</Button>
         </form>
       </div>
       <div className="LoginRegister">
-        <Button color="blue" outline="outline" onClick={onLoginClick}>Log In</Button>
-        <Button onClick={()=>{}} color="secondary" outline="outline">Sign Up</Button>
+        <Button color="blue" outline="outline" onClick={onLogInClick}>Log In</Button>
+        <Button color="secondary" outline="outline" onClick={onSignInClick}>Sign Up</Button>
       </div>
     </div>
   )
@@ -153,7 +161,7 @@ function Sidebar() {
 
       </ul>
       <div className="CreateButton">
-        <Button onClick={()=>{}} color="dark">Create new record</Button>
+        <Button onClick={() => { }} color="dark">Create new record</Button>
       </div>
     </div>
   )
@@ -191,16 +199,38 @@ function ListItem(props) {
 function LogIn(props) {
   return (
     <div className="LogIn">
-      <Modal label="Log In" onClickOutside={()=>{props.closeLogin()}} >
+      <Modal label="Log In" onClickOutside={() => { props.closeLogIn() }} >
         <form>
           <label htmlFor="username">Username</label>
           <input id="username" name="username" type="text" autoFocus required></input>
           <label htmlFor="password">Password</label>
           <input id="password" name="password" type="text" required></input>
         </form>
-        <div className="LogInFooter">
-          <Button type="submit"onClick={()=>{}} color="dark">Log in</Button>
+        <div className="Footer">
+          <Button type="submit" onClick={() => { }} color="dark">Log in</Button>
           <p>Don't have one account yet? <span>Sign Up</span></p>
+        </div>
+      </Modal>
+    </div>
+  )
+}
+function SignIn(props) {
+  return (
+    <div className="SignIn">
+      <Modal label="Sign In" onClickOutside={() => { props.closeSignIn() }} >
+        <form>
+          <label htmlFor="username">Username</label>
+          <input id="username" name="username" type="text" autoFocus required></input>
+          <label htmlFor="email">Email</label>
+          <input id="email" name="email" type="text" required></input>
+          <label htmlFor="password">Password</label>
+          <input id="password" name="password" type="text" required></input>
+          <label htmlFor="password-confirm">Password confirmation</label>
+          <input id="password-confirm" name="password-confirm" type="text" required></input>
+        </form>
+        <div className="Footer">
+          <Button type="submit" onClick={() => { }} color="dark">Sign in</Button>
+          <p>Already have one account ? <span>Sign Up</span></p>
         </div>
       </Modal>
     </div>
@@ -217,7 +247,7 @@ function Modal(props) {
   function handleClickOutside(event) {
     const path = event.path || (event.composedPath && event.composedPath());
     //if clicked outside of Modal but inside Login active
-    if (!path.includes(areaRef.current) && (event.target.className === "LogIn")) {
+    if (!path.includes(areaRef.current)) {
       props.onClickOutside();
     }
   };

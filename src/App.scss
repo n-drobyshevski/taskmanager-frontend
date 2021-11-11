@@ -425,6 +425,7 @@ input {
 		}
 	}
 }
+.SignIn,
 .LogIn {
 	display: flex;
 	z-index: 5;
@@ -481,10 +482,12 @@ input {
 				}
 			}
 		}
-		.LogInFooter {
+		.Footer {
 			display: flex;
 			flex-direction: column;
 			p {
+				font-family: $font-family-paragraph;
+				font-size: $p5;
 				text-align: center;
 				margin-top: 1rem;
 				span {
