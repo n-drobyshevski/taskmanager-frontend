@@ -426,7 +426,7 @@ input {
 		}
 	}
 }
-.SignIn,
+.SignUp,
 .LogIn,
 .LogOut {
 	display: flex;
@@ -455,6 +455,9 @@ input {
 			align-items: center;
 			border-bottom: 1px solid $color-p-light;
 			padding: 1rem 1.5rem; 
+			svg{
+				cursor:pointer;
+			}
 			p{
 				width:100%;
 				font-size: $h4;

@@ -3,18 +3,18 @@ import './App.scss';
 import { useState, useEffect, useRef } from 'react';
 
 function App() {
-  const [logged, setLogged] = useState(true);
+  const [logged, setLogged] = useState(false);
   const [logOutActive, setLogOutActive] = useState(false);
   const [logInActive, setLogInActive] = useState(false);
-  const [signInActive, setSignInActive] = useState(false);
+  const [signUpActive, setSignUpActive] = useState(false);
   return (
     <div className="App">
-      <Header logged={logged} LogInClick={() => setLogInActive(true)} LogOutClick={() => setLogOutActive(true)} SignInClick={() => setSignInActive(true)} />
+      <Header logged={logged} LogInClick={() => setLogInActive(true)} LogOutClick={() => setLogOutActive(true)} SignUpClick={() => setSignUpActive(true)} />
       <Sidebar />
       <Main />
       {logOutActive && <LogOut onLogOut={()=>{setLogged(false);setLogOutActive(false);}} closeLogOut={() => setLogOutActive(false)}></LogOut>}
-      {logInActive && <LogIn onLogIn={()=>{setLogged(true); setLogInActive(false);}} closeLogIn={() => setLogInActive(false)}></LogIn>}
-      {signInActive && <SignIn closeSignIn={() => setSignInActive(false)}></SignIn>}
+      {logInActive && <LogIn signUpCall={()=>{setLogInActive(false);setSignUpActive(true);}} onLogIn={()=>{setLogged(true); setLogInActive(false);}} closeLogIn={() => setLogInActive(false)}></LogIn>}
+      {signUpActive && <SignUp logInCall={()=>{setSignUpActive(false);setLogInActive(true);}} closeSignUp={() => setSignUpActive(false)}></SignUp>}
 
     </div>
   );
@@ -37,9 +37,9 @@ function Header(props) {
       props.LogInClick();
     }
   }
-  function onSignInClick(ref) {
+  function onSignUpClick(ref) {
     if (ref.parentElement.className === 'LoginRegister') {
-      props.SignInClick();
+      props.SignUpClick();
     }
   }
   function onLogOutClick(ref) {
@@ -66,7 +66,7 @@ function Header(props) {
         :
         <div className="LoginRegister">
           <Button color="blue" outline="outline" onClick={onLogInClick}>Log In</Button>
-          <Button color="secondary" outline="outline" onClick={onSignInClick}>Sign Up</Button>
+          <Button color="secondary" outline="outline" onClick={onSignUpClick}>Sign Up</Button>
         </div>
       }
     </div>
@@ -214,8 +214,8 @@ function ListItem(props) {
 function LogOut(props) {
   return (
     <div className="LogOut">
-      <Modal header="Log out" onClickOutside={() => { props.closeLogOut() }} >
-        <div className="ModalContent">
+      <Modal header="Log out" onClickOutside={() => { props.closeLogOut() }}  onCloseClick={()=>{props.closeLogOut()}}>
+        <div className="ModalContent" >
           <p>You want to Log out?</p>
         </div>
         <div className="Footer">
@@ -238,16 +238,17 @@ function LogIn(props) {
         </form>
         <div className="RegFooter">
           <Button type="submit" onClick={() => { props.onLogIn()}} color="dark">Log in</Button>
-          <p>Don't have one account yet? <span>Sign Up</span></p>
+          <p>Don't have one account yet? <span onClick={()=>{props.signUpCall();}}>Sign Up</span></p>
         </div>
       </Modal>
     </div>
   )
 }
-function SignIn(props) {
+function SignUp(props) {
+  
   return (
-    <div className="SignIn">
-      <Modal label="Sign In" onClickOutside={() => { props.closeSignIn() }} >
+    <div className="SignUp">
+      <Modal label="Sign Up" onClickOutside={() => { props.closeSignUp() }} >
         <form>
           <label htmlFor="username">Username</label>
           <input id="username" name="username" type="text" autoFocus required></input>
@@ -259,8 +260,8 @@ function SignIn(props) {
           <input id="password-confirm" name="password-confirm" type="text" required></input>
         </form>
         <div className="RegFooter">
-          <Button type="submit" onClick={() => { }} color="dark">Sign in</Button>
-          <p>Already have one account ? <span>Sign Up</span></p>
+          <Button type="submit" onClick={() => { props.onLogIn()}} color="dark">Sign Up</Button>
+          <p>Already have one account ? <span onClick={()=>{props.logInCall();}}>Log In</span></p>
         </div>
       </Modal>
     </div>
@@ -281,7 +282,6 @@ function Modal(props) {
       props.onClickOutside();
     }
   };
-
   return (
     <div className="Modal" ref={areaRef}>
       {props.label &&
@@ -291,7 +291,7 @@ function Modal(props) {
       {props.header &&
         <div className="ModalHeader">
           <p>{props.header}</p>
-          <svg className="close" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg onClick={()=>{props.onClickOutside()}} className="close" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fillRule="evenodd" clipRule="evenodd" d="M7.6979 6L12 10.3021L10.3021 12L6 7.6979L1.6979 12L0 10.3021L4.3021 6L0 1.6979L1.6979 0L6 4.3021L10.3021 0L12 1.6979L7.6979 6Z" fill="#505D68" />
           </svg>
         </div>
