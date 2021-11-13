@@ -14,18 +14,18 @@ function App() {
       <Main />
       {logOutActive && <LogOut onLogOut={()=>{setLogged(false);setLogOutActive(false);}} closeLogOut={() => setLogOutActive(false)}></LogOut>}
       {logInActive && <LogIn signUpCall={()=>{setLogInActive(false);setSignUpActive(true);}} onLogIn={()=>{setLogged(true); setLogInActive(false);}} closeLogIn={() => setLogInActive(false)}></LogIn>}
-      {signUpActive && <SignUp logInCall={()=>{setSignUpActive(false);setLogInActive(true);}} closeSignUp={() => setSignUpActive(false)}></SignUp>}
+      {signUpActive && <SignUp logInCall={()=>{setSignUpActive(false);setLogInActive(true);}} onSignUp={()=>{setLogged(true); setSignUpActive(false);}}closeSignUp={() => setSignUpActive(false)}></SignUp>}
 
     </div>
   );
 }
 function Button(props) {
-  const buttonRef = useRef(null)
+  const buttonRef = useRef(null);
   function click() {
     props.onClick(buttonRef.current);
   }
   return (
-    <button ref={buttonRef} onClick={click} type={props.type} className={`Button ${props.color} ${props.outline ? props.outline : ''}`}>
+    <button className={`Button ${props.color}`} ref={buttonRef} onClick={click} type={props.type} >
       {props.children}
     </button>
   )
@@ -55,18 +55,18 @@ function Header(props) {
       <div className="Search">
         <form onSubmit={() => console.log('OnSubmit {Header}')} role="search">
           <input id="search" type="search" placeholder="Search..." autoFocus required />
-          <Button onClick={() => { }} color='blue' type="submit">Search</Button>
+          <Button onClick={() => { }} color='secondary' type="submit">Search</Button>
         </form>
       </div>
       {props.logged ?
         <div className="LoginRegister">
-          <Button color="blue" outline="outline" onClick={onLogInClick}>Profile</Button>
-          <Button color="blue" outline="outline" onClick={onLogOutClick}>Log Out</Button>
+          <Button color="primary-outline" onClick={onLogInClick}>Profile</Button>
+          <Button color="red-outline" onClick={onLogOutClick}>Log Out</Button>
         </div>
         :
         <div className="LoginRegister">
-          <Button color="blue" outline="outline" onClick={onLogInClick}>Log In</Button>
-          <Button color="secondary" outline="outline" onClick={onSignUpClick}>Sign Up</Button>
+          <Button color="primary-outline" onClick={onLogInClick}>Log In</Button>
+          <Button color="secondary-outline" onClick={onSignUpClick}>Sign Up</Button>
         </div>
       }
     </div>
@@ -176,7 +176,7 @@ function Sidebar() {
 
       </ul>
       <div className="CreateButton">
-        <Button onClick={() => { }} color="dark">Create new record</Button>
+        <Button onClick={() => { }} color="primary">Create new record</Button>
       </div>
     </div>
   )
@@ -219,8 +219,8 @@ function LogOut(props) {
           <p>You want to Log out?</p>
         </div>
         <div className="Footer">
-          <Button type="submit" onClick={()=>{props.closeLogOut()} } color="secondary" outline='outline'>Cancel</Button>
-          <Button type="submit" onClick={() => { props.onLogOut()}} color="dark">Log Out</Button>
+          <Button type="submit" onClick={()=>{props.closeLogOut()} } color="primary-outline" outline='outline'>Cancel</Button>
+          <Button type="submit" onClick={() => { props.onLogOut()}} color="red">Log Out</Button>
         </div>
       </Modal>
     </div>
@@ -237,7 +237,7 @@ function LogIn(props) {
           <input id="password" name="password" type="text" required></input>
         </form>
         <div className="RegFooter">
-          <Button type="submit" onClick={() => { props.onLogIn()}} color="dark">Log in</Button>
+          <Button type="submit" onClick={() => { props.onLogIn()}} color="secondary">Log in</Button>
           <p>Don't have one account yet? <span onClick={()=>{props.signUpCall();}}>Sign Up</span></p>
         </div>
       </Modal>
@@ -260,7 +260,7 @@ function SignUp(props) {
           <input id="password-confirm" name="password-confirm" type="text" required></input>
         </form>
         <div className="RegFooter">
-          <Button type="submit" onClick={() => { props.onLogIn()}} color="dark">Sign Up</Button>
+          <Button type="submit" onClick={() => { props.onSignUp()}} color="secondary">Sign Up</Button>
           <p>Already have one account ? <span onClick={()=>{props.logInCall();}}>Log In</span></p>
         </div>
       </Modal>

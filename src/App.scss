@@ -1,6 +1,6 @@
 @import "styles/reset";
 @import "styles/fonts";
-
+//color variables
 $color-background: #ecf0f1;
 $color-surface: #ffffff;
 $color-p-dark: #031828;
@@ -21,7 +21,7 @@ $color-text-on-dark-disabled: #ffffff61;
 $color-overlay-hovered: #3498db0a;
 $color-overlay-pressed: #3498db1a;
 $color-overlay-focused: #3498db1f;
-
+//shadow variables
 $outer-shadow: 9px 9px 16px #c9cccd, -9px -9px 16px rgba(255, 255, 255, 0.5);
 $inset-shadow: inset 10px 10px 15px -10px #c9cccd,
 	inset -10px -10px 15px -10px #ffffff;
@@ -31,6 +31,7 @@ $shadow2: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 $shadow3: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 $shadow4: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 $shadow5: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+//text variables
 $font-family-heading: "Chivo";
 $font-family-paragraph: "Overpass";
 $h1: 2.441rem;
@@ -40,6 +41,7 @@ $h5: 1rem;
 $p5: 1rem;
 $p4: 1.25rem;
 $p6: 0.8rem;
+
 html,
 body,
 #root,
@@ -47,6 +49,7 @@ body,
 	height: 100%;
 	margin: 0;
 }
+//scroll styles
 * {
 	scrollbar-width: thin;
 	scrollbar-color: $color-primary $color-surface;
@@ -104,23 +107,23 @@ input {
 	text-decoration: none;
 	height: min-content;
 }
-.Button.dark {
+.Button.primary {
 	@include fill($color-primary);
 }
-.Button.dark.outline {
+.Button.primary-outline {
 	@include outline($color-primary);
 }
 .Button.secondary {
-	@include fill($color-text-on-light-2);
-}
-.Button.secondary.outline {
-	@include outline($color-text-on-light-2);
-}
-.Button.blue {
 	@include fill($color-secondary);
 }
-.Button.blue.outline {
+.Button.secondary-outline {
 	@include outline($color-secondary);
+}
+.Button.red {
+	@include fill($color-red);
+}
+.Button.red-outline {
+	@include outline($color-red);
 }
 .App {
 	grid: "header header" 6rem "sidebar main" 85% / [sidebar] 22rem [main] 1fr 2rem;
@@ -170,10 +173,7 @@ input {
 				top: 0;
 				right: 0;
 				width: 6rem;
-				background: $color-primary;
 				border-radius: 0 0.25rem 0.25rem 0;
-				border: 1px solid $color-primary;
-				color: $color-text-on-dark-1;
 			}
 			input:focus {
 				border-color: $color-secondary;
