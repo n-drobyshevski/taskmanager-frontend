@@ -7,14 +7,16 @@ function App() {
   const [logOutActive, setLogOutActive] = useState(false);
   const [logInActive, setLogInActive] = useState(false);
   const [signUpActive, setSignUpActive] = useState(false);
+  const [profileActive, setProfileActive] = useState(false);
   return (
     <div className="App">
-      <Header logged={logged} LogInClick={() => setLogInActive(true)} LogOutClick={() => setLogOutActive(true)} SignUpClick={() => setSignUpActive(true)} />
+      <Header logged={logged} LogInClick={() => setLogInActive(true)} profileClick={() => setProfileActive(true)} LogOutClick={() => setLogOutActive(true)} SignUpClick={() => setSignUpActive(true)} />
       <Sidebar />
       <Main />
-      {logOutActive && <LogOut onLogOut={()=>{setLogged(false);setLogOutActive(false);}} closeLogOut={() => setLogOutActive(false)}></LogOut>}
-      {logInActive && <LogIn signUpCall={()=>{setLogInActive(false);setSignUpActive(true);}} onLogIn={()=>{setLogged(true); setLogInActive(false);}} closeLogIn={() => setLogInActive(false)}></LogIn>}
-      {signUpActive && <SignUp logInCall={()=>{setSignUpActive(false);setLogInActive(true);}} onSignUp={()=>{setLogged(true); setSignUpActive(false);}}closeSignUp={() => setSignUpActive(false)}></SignUp>}
+      {logOutActive && <LogOut onLogOut={() => { setLogged(false); setLogOutActive(false); }} closeLogOut={() => setLogOutActive(false)}></LogOut>}
+      {logInActive && <LogIn signUpCall={() => { setLogInActive(false); setSignUpActive(true); }} onLogIn={() => { setLogged(true); setLogInActive(false); }} closeLogIn={() => setLogInActive(false)}></LogIn>}
+      {signUpActive && <SignUp logInCall={() => { setSignUpActive(false); setLogInActive(true); }} onSignUp={() => { setLogged(true); setSignUpActive(false); }} closeSignUp={() => setSignUpActive(false)}></SignUp>}
+      {profileActive && <Profile logInCall={() => { setProfileActive(false); setLogInActive(true); }}  closeProfile={() => setProfileActive(false)}></Profile>}
 
     </div>
   );
@@ -47,6 +49,11 @@ function Header(props) {
       props.LogOutClick();
     }
   }
+  function onProfileClick(ref) {
+    if (ref.parentElement.className === 'LoginRegister') {
+      props.profileClick();
+    }
+  }
   return (
     <div className="Header">
       <div className="Logo">
@@ -60,7 +67,7 @@ function Header(props) {
       </div>
       {props.logged ?
         <div className="LoginRegister">
-          <Button color="primary-outline" onClick={onLogInClick}>Profile</Button>
+          <Button color="primary-outline" onClick={onProfileClick}>Profile</Button>
           <Button color="red-outline" onClick={onLogOutClick}>Log Out</Button>
         </div>
         :
@@ -214,13 +221,13 @@ function ListItem(props) {
 function LogOut(props) {
   return (
     <div className="LogOut">
-      <Modal header="Log out" onClickOutside={() => { props.closeLogOut() }}  onCloseClick={()=>{props.closeLogOut()}}>
+      <Modal header="Log out" onClickOutside={() => { props.closeLogOut() }} onCloseClick={() => { props.closeLogOut() }}>
         <div className="ModalContent" >
           <p>You want to Log out?</p>
         </div>
         <div className="Footer">
-          <Button type="submit" onClick={()=>{props.closeLogOut()} } color="primary-outline" outline='outline'>Cancel</Button>
-          <Button type="submit" onClick={() => { props.onLogOut()}} color="red">Log Out</Button>
+          <Button type="submit" onClick={() => { props.closeLogOut() }} color="primary-outline" outline='outline'>Cancel</Button>
+          <Button type="submit" onClick={() => { props.onLogOut() }} color="red">Log Out</Button>
         </div>
       </Modal>
     </div>
@@ -237,15 +244,15 @@ function LogIn(props) {
           <input id="password" name="password" type="text" required></input>
         </form>
         <div className="RegFooter">
-          <Button type="submit" onClick={() => { props.onLogIn()}} color="secondary">Log in</Button>
-          <p>Don't have one account yet? <span onClick={()=>{props.signUpCall();}}>Sign Up</span></p>
+          <Button type="submit" onClick={() => { props.onLogIn() }} color="secondary">Log in</Button>
+          <p>Don't have one account yet? <span onClick={() => { props.signUpCall(); }}>Sign Up</span></p>
         </div>
       </Modal>
     </div>
   )
 }
 function SignUp(props) {
-  
+
   return (
     <div className="SignUp">
       <Modal label="Sign Up" onClickOutside={() => { props.closeSignUp() }} >
@@ -260,12 +267,32 @@ function SignUp(props) {
           <input id="password-confirm" name="password-confirm" type="text" required></input>
         </form>
         <div className="RegFooter">
-          <Button type="submit" onClick={() => { props.onSignUp()}} color="secondary">Sign Up</Button>
-          <p>Already have one account ? <span onClick={()=>{props.logInCall();}}>Log In</span></p>
+          <Button type="submit" onClick={() => { props.onSignUp() }} color="secondary">Sign Up</Button>
+          <p>Already have one account ? <span onClick={() => { props.logInCall(); }}>Log In</span></p>
         </div>
       </Modal>
     </div>
   )
+}
+
+function Profile(props) {
+  return (
+    <div className="Profile">
+      <Modal header="Profile" onClickOutside={() => { props.closeProfile() }} onCloseClick={() => { props.closeProfile() }}>
+        <form>
+          <label htmlFor="username">Username</label>
+          <input defaultValue="User_name" id="username" name="username" type="text" readOnly></input>
+          <label htmlFor="email">Email</label>
+          <input  defaultValue="username@mail.com" id="email" name="email" type="text" readOnly></input>
+          <label htmlFor="password">Password</label>
+          <input defaultValue="************" id="password" name="password" type="text" readOnly></input>
+          <span onClick={() => {}}>Change password</span>
+          </form>
+        <div className="Footer">
+          <Button type="submit" onClick={() => { props.closeProfile() }} color="primary-outline" outline='outline'>Cancel</Button>
+        </div>
+      </Modal>
+    </div>)
 }
 function Modal(props) {
   const areaRef = useRef(null); //needs for control that click is outside
@@ -291,7 +318,7 @@ function Modal(props) {
       {props.header &&
         <div className="ModalHeader">
           <p>{props.header}</p>
-          <svg onClick={()=>{props.onClickOutside()}} className="close" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg onClick={() => { props.onClickOutside() }} className="close" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fillRule="evenodd" clipRule="evenodd" d="M7.6979 6L12 10.3021L10.3021 12L6 7.6979L1.6979 12L0 10.3021L4.3021 6L0 1.6979L1.6979 0L6 4.3021L10.3021 0L12 1.6979L7.6979 6Z" fill="#505D68" />
           </svg>
         </div>

@@ -465,6 +465,7 @@ input {
 		}
 	}
 }
+.Profile,
 .SignUp,
 .LogIn,
 .LogOut {
@@ -543,6 +544,14 @@ input {
 					outline: 0;
 					border-color: $color-secondary;
 				}
+			}
+			span {
+				margin-top: -0.5rem;
+				font-size: $p6;
+				font-family: $font-family-paragraph;
+				display: inline-block;
+				color: $color-secondary;
+				cursor: pointer;
 			}
 		}
 		.Footer {
