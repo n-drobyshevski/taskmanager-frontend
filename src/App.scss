@@ -106,24 +106,47 @@ input {
 	font-family: $font-family-paragraph;
 	text-decoration: none;
 	height: min-content;
+	transition: all 0.3s;
+	&:active {
+		-webkit-transform: translate(5px, 5px);
+		transform: translate(5px, 5px);
+	}
 }
 .Button.primary {
 	@include fill($color-primary);
+	&:hover {
+		@include outline($color-primary);
+	}
 }
 .Button.primary-outline {
 	@include outline($color-primary);
+	&:hover {
+		@include fill($color-primary);
+	}
 }
 .Button.secondary {
 	@include fill($color-secondary);
+	&:hover {
+		@include outline($color-secondary);
+	}
 }
 .Button.secondary-outline {
 	@include outline($color-secondary);
+	&:hover {
+		@include fill($color-secondary);
+	}
 }
 .Button.red {
 	@include fill($color-red);
+	&:hover {
+		@include outline($color-red);
+	}
 }
 .Button.red-outline {
 	@include outline($color-red);
+	&:hover {
+		@include fill($color-red);
+	}
 }
 .App {
 	grid: "header header" 6rem "sidebar main" 85% / [sidebar] 22rem [main] 1fr 2rem;
@@ -174,6 +197,11 @@ input {
 				right: 0;
 				width: 6rem;
 				border-radius: 0 0.25rem 0.25rem 0;
+				&:active{
+					-webkit-transform: translate(5px);
+					transform: translate(5px);
+
+				}
 			}
 			input:focus {
 				border-color: $color-secondary;
@@ -422,7 +450,7 @@ input {
 		width: 100%;
 		.Button {
 			flex-grow: 1;
-			color: $color-text-on-dark-1;
+			// color: $color-text-on-dark-1;
 		}
 	}
 }
@@ -449,17 +477,17 @@ input {
 		// padding: 2rem 6rem;
 		gap: 3rem;
 		box-sizing: border-box;
-		.ModalHeader{
+		.ModalHeader {
 			display: flex;
 			justify-content: center;
 			align-items: center;
 			border-bottom: 1px solid $color-p-light;
-			padding: 1rem 1.5rem; 
-			svg{
-				cursor:pointer;
+			padding: 1rem 1.5rem;
+			svg {
+				cursor: pointer;
 			}
-			p{
-				width:100%;
+			p {
+				width: 100%;
 				font-size: $h4;
 				font-family: $font-family-heading;
 			}
@@ -476,13 +504,13 @@ input {
 				font-family: $font-family-heading;
 			}
 		}
-		.ModalContent{
+		.ModalContent {
 			font-family: $font-family-paragraph;
 			font-size: $p4;
 			padding: 0 4rem;
 		}
 		form {
-			padding: 0 6rem;	
+			padding: 0 6rem;
 			display: flex;
 			flex-direction: column;
 			gap: 0.5rem;
@@ -506,12 +534,12 @@ input {
 				}
 			}
 		}
-		.Footer{
+		.Footer {
 			display: flex;
 			justify-content: flex-end;
-			padding:1rem;
+			padding: 1rem;
 			border-top: 1px solid $color-p-light;
-			gap:1rem;
+			gap: 1rem;
 		}
 		.RegFooter {
 			padding: 0 6rem 2rem 6rem;
