@@ -197,10 +197,9 @@ input {
 				right: 0;
 				width: 6rem;
 				border-radius: 0 0.25rem 0.25rem 0;
-				&:active{
+				&:active {
 					-webkit-transform: translate(5px);
 					transform: translate(5px);
-
 				}
 			}
 			input:focus {
@@ -393,6 +392,13 @@ input {
 			.AccordionContent {
 				overflow: hidden;
 				height: 0;
+				li {
+					border-color: transparent;
+					border-top-color: $color-text-on-light-2;
+					&:first-child {
+						border-color: transparent;
+					}
+				}
 			}
 		}
 		.active {
@@ -410,7 +416,6 @@ input {
 				display: block;
 				width: 100%;
 				height: auto;
-				// transition: .3s all; //shades for neomrph
 				box-shadow: $inset-shadow;
 				color: $color-text-on-light-2;
 				li {
@@ -418,19 +423,25 @@ input {
 					align-items: center;
 					padding: 1rem;
 					gap: 0.5rem;
-					border-bottom: 1px solid $color-text-on-light-2;
+					border: 1px solid transparent;
+					border-top-color: $color-text-on-light-2;
 					list-style: none;
+					transition: 0.3s border-color ease;
+					&:first-child {
+						border-color: transparent;
+					}
 					p {
 						font-family: $font-family-paragraph;
 						font-size: $p5;
 					}
 					&:hover {
+						border: 1px solid $color-secondary;
 						background-color: $color-overlay-hovered;
 						transition: 0.3s all;
 					}
-					&:last-child {
-						border: none;
-					}
+				}
+				li:hover + li {
+					border-color: transparent;
 				}
 			}
 		}
