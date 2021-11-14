@@ -8,6 +8,7 @@ function App() {
   const [logInActive, setLogInActive] = useState(false);
   const [signUpActive, setSignUpActive] = useState(false);
   const [profileActive, setProfileActive] = useState(false);
+  const [profileEditActive, setProfileEditActive] = useState(false);
   return (
     <div className="App">
       <Header logged={logged} LogInClick={() => setLogInActive(true)} profileClick={() => setProfileActive(true)} LogOutClick={() => setLogOutActive(true)} SignUpClick={() => setSignUpActive(true)} />
@@ -15,8 +16,9 @@ function App() {
       <Main />
       {logOutActive && <LogOut onLogOut={() => { setLogged(false); setLogOutActive(false); }} closeLogOut={() => setLogOutActive(false)}></LogOut>}
       {logInActive && <LogIn signUpCall={() => { setLogInActive(false); setSignUpActive(true); }} onLogIn={() => { setLogged(true); setLogInActive(false); }} closeLogIn={() => setLogInActive(false)}></LogIn>}
-      {signUpActive && <SignUp logInCall={() => { setSignUpActive(false); setLogInActive(true); }} onSignUp={() => { setLogged(true); setSignUpActive(false); }} closeSignUp={() => setSignUpActive(false)}></SignUp>}
-      {profileActive && <Profile logInCall={() => { setProfileActive(false); setLogInActive(true); }}  closeProfile={() => setProfileActive(false)}></Profile>}
+      {signUpActive && <SignUp logInCall={() => { setSignUpActive(false); setLogInActive(true); }} onSignUp={() => { setLogged(true); setSignUpActive(false);}} closeSignUp={() => setSignUpActive(false)}></SignUp>}
+      {profileActive && <Profile onPasswordChangeClick={()=>{}} onEditClick={()=>{setProfileActive(false);console.log('edit click');setProfileEditActive(true);}}  closeProfile={() => setProfileActive(false)}></Profile>}
+      {profileEditActive && <ProfileEdit onProfileEditSubmit={()=>{setProfileEditActive(false)}} onEditClick={()=>{setProfileActive(false);}} closeProfileEdit={() => setProfileEditActive(false)}></ProfileEdit>}
 
     </div>
   );
@@ -35,22 +37,22 @@ function Button(props) {
 
 function Header(props) {
   function onLogInClick(ref) {
-    if (ref.parentElement.className === 'LoginRegister') {
+    if (ref.parentElement.className === 'Nav') {
       props.LogInClick();
     }
   }
   function onSignUpClick(ref) {
-    if (ref.parentElement.className === 'LoginRegister') {
+    if (ref.parentElement.className === 'Nav') {
       props.SignUpClick();
     }
   }
   function onLogOutClick(ref) {
-    if (ref.parentElement.className === 'LoginRegister') {
+    if (ref.parentElement.className === 'Nav') {
       props.LogOutClick();
     }
   }
   function onProfileClick(ref) {
-    if (ref.parentElement.className === 'LoginRegister') {
+    if (ref.parentElement.className === 'Nav') {
       props.profileClick();
     }
   }
@@ -66,12 +68,12 @@ function Header(props) {
         </form>
       </div>
       {props.logged ?
-        <div className="LoginRegister">
+        <div className="Nav">
           <Button color="primary-outline" onClick={onProfileClick}>Profile</Button>
           <Button color="red-outline" onClick={onLogOutClick}>Log Out</Button>
         </div>
         :
-        <div className="LoginRegister">
+        <div className="Nav">
           <Button color="primary-outline" onClick={onLogInClick}>Log In</Button>
           <Button color="secondary-outline" onClick={onSignUpClick}>Sign Up</Button>
         </div>
@@ -280,13 +282,14 @@ function Profile(props) {
     <div className="Profile">
       <Modal header="Profile" onClickOutside={() => { props.closeProfile() }} onCloseClick={() => { props.closeProfile() }}>
         <form>
+          <span onClick={()=>{props.onEditClick();}}id="edit">Edit</span>
           <label htmlFor="username">Username</label>
           <input defaultValue="User_name" id="username" name="username" type="text" readOnly></input>
           <label htmlFor="email">Email</label>
           <input  defaultValue="username@mail.com" id="email" name="email" type="text" readOnly></input>
           <label htmlFor="password">Password</label>
           <input defaultValue="************" id="password" name="password" type="text" readOnly></input>
-          <span onClick={() => {}}>Change password</span>
+          <span onClick={() => {props.onPasswordChangeClick()}}>Change password</span>
           </form>
         <div className="Footer">
           <Button type="submit" onClick={() => { props.closeProfile() }} color="primary-outline" outline='outline'>Cancel</Button>
@@ -294,6 +297,27 @@ function Profile(props) {
       </Modal>
     </div>)
 }
+function ProfileEdit(props) {
+  return (
+    <div className="ProfileEdit">
+      <Modal header="ProfileEdit" onClickOutside={() => { props.closeProfileEdit() }} onCloseClick={() => { props.closeProfileEdit() }}>
+        <form>
+          <label htmlFor="username">Username</label>
+          <input defaultValue="User_name" id="username" name="username" type="text" required autoFocus></input>
+          <label htmlFor="email">Email</label>
+          <input  defaultValue="username@mail.com" id="email" name="email" type="text" required></input>
+          <label htmlFor="password">Password</label>
+          <input defaultValue="************" id="password" name="password" type="text" required></input>
+          <span onClick={() => {props.onPasswordEditClick()}}>Change password</span>
+          </form>
+        <div className="Footer">
+          <Button type="submit" onClick={() => { props.closeProfileEdit() }} color="primary-outline" outline='outline'>Cancel</Button>
+          <Button type="submit" onClick={() => { props.onProfileEditSubmit() }} color="secondary">Submit</Button>
+        </div>
+      </Modal>
+    </div>)
+}
+
 function Modal(props) {
   const areaRef = useRef(null); //needs for control that click is outside
   //add and remove eventListeners on render

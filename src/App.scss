@@ -212,7 +212,7 @@ input {
 			}
 		}
 	}
-	.LoginRegister {
+	.Nav {
 		display: flex;
 		gap: 0.5rem;
 		padding: 2rem 0;
@@ -466,6 +466,7 @@ input {
 	}
 }
 .Profile,
+.ProfileEdit,
 .SignUp,
 .LogIn,
 .LogOut {
@@ -552,6 +553,11 @@ input {
 				display: inline-block;
 				color: $color-secondary;
 				cursor: pointer;
+			}
+			#edit{
+				width:100%;
+				text-align: right;
+				font-size: $p5;	
 			}
 		}
 		.Footer {
