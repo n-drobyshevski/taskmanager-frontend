@@ -9,6 +9,7 @@ function App() {
   const [signUpActive, setSignUpActive] = useState(false);
   const [profileActive, setProfileActive] = useState(false);
   const [profileEditActive, setProfileEditActive] = useState(false);
+  const [passwordEditActive, setPasswordEditActive] = useState(false);
   return (
     <div className="App">
       <Header logged={logged} LogInClick={() => setLogInActive(true)} profileClick={() => setProfileActive(true)} LogOutClick={() => setLogOutActive(true)} SignUpClick={() => setSignUpActive(true)} />
@@ -17,8 +18,9 @@ function App() {
       {logOutActive && <LogOut onLogOut={() => { setLogged(false); setLogOutActive(false); }} closeLogOut={() => setLogOutActive(false)}></LogOut>}
       {logInActive && <LogIn signUpCall={() => { setLogInActive(false); setSignUpActive(true); }} onLogIn={() => { setLogged(true); setLogInActive(false); }} closeLogIn={() => setLogInActive(false)}></LogIn>}
       {signUpActive && <SignUp logInCall={() => { setSignUpActive(false); setLogInActive(true); }} onSignUp={() => { setLogged(true); setSignUpActive(false);}} closeSignUp={() => setSignUpActive(false)}></SignUp>}
-      {profileActive && <Profile onPasswordChangeClick={()=>{}} onEditClick={()=>{setProfileActive(false);console.log('edit click');setProfileEditActive(true);}}  closeProfile={() => setProfileActive(false)}></Profile>}
-      {profileEditActive && <ProfileEdit onProfileEditSubmit={()=>{setProfileEditActive(false)}} onEditClick={()=>{setProfileActive(false);}} closeProfileEdit={() => setProfileEditActive(false)}></ProfileEdit>}
+      {profileActive && <Profile onPasswordEditClick={()=>{setProfileActive(false);setPasswordEditActive(true)}} onEditClick={()=>{setProfileActive(false);console.log('edit click');setProfileEditActive(true);}}  closeProfile={() => setProfileActive(false)}></Profile>}
+      {profileEditActive && <ProfileEdit  onProfileEditSubmit={()=>{setProfileEditActive(false);setProfileActive(true)}} onEditClick={()=>{setProfileActive(false);}} closeProfileEdit={() => {setProfileEditActive(false);setProfileActive(true)}}></ProfileEdit>}
+      {passwordEditActive && <PasswordEdit onPasswordEditSubmit={()=>{setPasswordEditActive(false);setProfileActive(true)}} closePasswordEdit={() => {setPasswordEditActive(false);setProfileActive(true)}}></PasswordEdit>}
 
     </div>
   );
@@ -289,7 +291,7 @@ function Profile(props) {
           <input  defaultValue="username@mail.com" id="email" name="email" type="text" readOnly></input>
           <label htmlFor="password">Password</label>
           <input defaultValue="************" id="password" name="password" type="text" readOnly></input>
-          <span onClick={() => {props.onPasswordChangeClick()}}>Change password</span>
+          <span onClick={() =>  {props.onPasswordEditClick()}}>Change password</span>
           </form>
         <div className="Footer">
           <Button type="submit" onClick={() => { props.closeProfile() }} color="primary-outline" outline='outline'>Cancel</Button>
@@ -300,19 +302,35 @@ function Profile(props) {
 function ProfileEdit(props) {
   return (
     <div className="ProfileEdit">
-      <Modal header="ProfileEdit" onClickOutside={() => { props.closeProfileEdit() }} onCloseClick={() => { props.closeProfileEdit() }}>
+      <Modal header="Profile Edit" onClickOutside={() => { props.closeProfileEdit() }} onCloseClick={() => { props.closeProfileEdit() }}>
         <form>
           <label htmlFor="username">Username</label>
           <input defaultValue="User_name" id="username" name="username" type="text" required autoFocus></input>
           <label htmlFor="email">Email</label>
           <input  defaultValue="username@mail.com" id="email" name="email" type="text" required></input>
-          <label htmlFor="password">Password</label>
-          <input defaultValue="************" id="password" name="password" type="text" required></input>
-          <span onClick={() => {props.onPasswordEditClick()}}>Change password</span>
           </form>
         <div className="Footer">
           <Button type="submit" onClick={() => { props.closeProfileEdit() }} color="primary-outline" outline='outline'>Cancel</Button>
           <Button type="submit" onClick={() => { props.onProfileEditSubmit() }} color="secondary">Submit</Button>
+        </div>
+      </Modal>
+    </div>)
+}
+function PasswordEdit(props) {
+  return (
+    <div className="PasswordEdit">
+      <Modal header="Password Edit" onClickOutside={() => { props.closePasswordEdit() }} onCloseClick={() => { props.closePasswordEdit() }}>
+        <form>
+          <label htmlFor="current-password">Current password</label>
+          <input defaultValue="************" id="current-password" name="current-password" type="text" autoFocus required></input>
+          <label htmlFor="new-password">New password</label>
+          <input defaultValue="************" id="new-password" name="new-password" type="text" required></input>
+          <label htmlFor="new-password-confirmation">New password confirmation</label>
+          <input defaultValue="************" id="new-password-confirmation" name="new-password-confirmation" type="text" required></input>
+          </form>
+        <div className="Footer">
+          <Button type="submit" onClick={() => { props.closePasswordEdit() }} color="primary-outline" outline='outline'>Cancel</Button>
+          <Button type="submit" onClick={() => { props.onPasswordEditSubmit() }} color="secondary">Submit</Button>
         </div>
       </Modal>
     </div>)
